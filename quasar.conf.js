@@ -78,7 +78,9 @@ module.exports = configure(function (ctx) {
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      config: {},
+      config: {
+        dark: true,
+      },
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
@@ -138,8 +140,8 @@ module.exports = configure(function (ctx) {
         description: `Inboxly App`,
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
-        theme_color: '#027be3',
+        background_color: '#000000',
+        theme_color: '#ffffff',
         icons: [
           {
             src: 'icons/icon-128x128.png',
