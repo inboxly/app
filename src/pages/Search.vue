@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <top-bar title="Search"/>
+    <top-bar title="Search" more/>
   </q-page>
 </template>
 

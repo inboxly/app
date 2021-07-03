@@ -3,6 +3,7 @@
     <q-toolbar class="row">
       <div class="col text-left">
         <q-circular-progress
+          v-if="progress"
           show-value
           class="text-white q-ml-xs"
           :max="875"
@@ -18,8 +19,8 @@
       </q-toolbar-title>
 
       <div class="col text-right">
-        <q-btn dense flat round icon="done"/>
-        <q-btn dense flat round icon="more_horiz"/>
+        <q-btn v-if="done" dense flat round icon="done"/>
+        <q-btn v-if="more" dense flat round icon="more_horiz"/>
       </div>
     </q-toolbar>
   </q-header>
@@ -32,6 +33,18 @@ export default {
     title: {
       type: String,
       default: '',
+    },
+    progress: {
+      type: Boolean,
+      default: false,
+    },
+    done: {
+      type: Boolean,
+      default: false,
+    },
+    more: {
+      type: Boolean,
+      default: false,
     },
   },
   setup () {

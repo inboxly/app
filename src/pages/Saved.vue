@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <top-bar title="Saved"/>
+    <top-bar title="Saved" more/>
     <entry-list url="http://127.0.0.1:8000/api/saved/entries?api_token=api_token"/>
   </q-page>
 </template>
