@@ -212,6 +212,11 @@
 <script>
 export default {
   name: 'MainMenu',
+  data () {
+    return {
+      link: '',
+    }
+  },
   setup () {
     return {}
   }
