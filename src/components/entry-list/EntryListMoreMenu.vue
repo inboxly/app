@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import TopBar from 'components/TopBar'
+import TopBar from 'components/top-bar/TopBar'
 export default {
   name: 'EntryListMoreMenu',
   components: { TopBar },

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import TopBar from 'components/TopBar'
+import TopBar from 'components/top-bar/TopBar'
 import SearchInput from 'components/SearchInput'
 
 export default {

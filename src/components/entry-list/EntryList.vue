@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import EntryListContextMenu from 'components/EntryListContextMenu'
+import EntryListContextMenu from 'components/entry-list/EntryListContextMenu'
 
 export default {
   name: 'EntryList',

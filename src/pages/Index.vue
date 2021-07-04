@@ -17,12 +17,12 @@
 
 <script>
 import { defineComponent } from 'vue'
-import EntryList from 'components/EntryList'
-import TopBar from 'components/TopBar'
-import ProgressCounter from 'components/ProgressCounter'
-import EntryListMoreMenu from 'components/EntryListMoreMenu'
-import DoneButton from 'components/DoneButton'
-import MoreButton from 'components/MoreButton'
+import EntryList from 'components/entry-list/EntryList'
+import TopBar from 'components/top-bar/TopBar'
+import ProgressCounter from 'components/top-bar/ProgressCounter'
+import EntryListMoreMenu from 'components/entry-list/EntryListMoreMenu'
+import DoneButton from 'components/top-bar/DoneButton'
+import MoreButton from 'components/top-bar/MoreButton'
 
 export default defineComponent({
   name: 'PageIndex',

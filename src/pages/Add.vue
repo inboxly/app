@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import TopBar from 'components/TopBar'
-import ChooseLanguageButton from 'components/ChooseLanguageButton'
+import TopBar from 'components/top-bar/TopBar'
+import ChooseLanguageButton from 'components/top-bar/ChooseLanguageButton'
 import SearchInput from 'components/SearchInput'
 
 export default {
