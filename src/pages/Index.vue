@@ -1,12 +1,12 @@
 <template>
   <q-page>
-    <top-bar v-show="true" title="All personal feeds">
+    <top-bar title="All personal feeds">
       <template #left>
         <progress-counter/>
       </template>
       <template #right>
-        <q-btn dense flat round icon="done"/>
-        <q-btn dense flat round icon="more_horiz" @click="moreMenu = true"/>
+        <done-button/>
+        <more-button @click="moreMenu = true"/>
       </template>
     </top-bar>
 
@@ -21,10 +21,12 @@ import EntryList from 'components/EntryList'
 import TopBar from 'components/TopBar'
 import ProgressCounter from 'components/ProgressCounter'
 import EntryListMoreMenu from 'components/EntryListMoreMenu'
+import DoneButton from 'components/DoneButton'
+import MoreButton from 'components/MoreButton'
 
 export default defineComponent({
   name: 'PageIndex',
-  components: { EntryListMoreMenu, ProgressCounter, TopBar, EntryList },
+  components: { MoreButton, DoneButton, EntryListMoreMenu, ProgressCounter, TopBar, EntryList },
   data () {
     return {
       moreMenu: false,
