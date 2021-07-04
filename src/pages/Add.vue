@@ -1,50 +1,37 @@
 <template>
   <q-page>
-    <top-bar title="Add content" v-show="!focus">
+    <top-bar title="Add content" v-show="!focused">
       <template #right>
-        <q-btn dense flat round icon="translate"/>
+        <choose-language-button/>
       </template>
     </top-bar>
-    <div class="q-pa-md">
-      <q-input
-        ref="input"
-        v-model="query"
-        label="Type a query or URL"
-        debounce="1000"
-        clearable
-        @focus="focus = true"
-        @blur="focus = false"
-        @update:model-value="explore"
-      >
-        <template #prepend>
-          <q-btn dense round :icon="focus ? 'arrow_back' : 'search'" @click="focus && $refs.input.blur()"/>
-        </template>
-      </q-input>
-    </div>
+    <search-input
+      label="Type a query or URL"
+      @search="explore"
+      @blur="focused = false"
+      @focus="focused = true"
+    />
   </q-page>
 </template>
 
 <script>
 import TopBar from 'components/TopBar'
+import ChooseLanguageButton from 'components/ChooseLanguageButton'
+import SearchInput from 'components/SearchInput'
 
 export default {
   name: 'PageAdd',
   data () {
     return {
-      focus: false,
-      query: '',
+      focused: false,
       icon: 'search',
     }
   },
-  components: { TopBar },
+  components: { SearchInput, ChooseLanguageButton, TopBar },
   methods: {
     explore (query) {
-      const trimmedQuery = (query || '').trim()
-      if (!trimmedQuery) {
-        return
-      }
-      console.log('Sent a query to explore: ' + trimmedQuery)
-      this.$axios.post('http://127.0.0.1:8000/api/explore?api_token=api_token', { query: trimmedQuery }).
+      console.log('Sent a query to explore: ' + query)
+      this.$axios.post('http://127.0.0.1:8000/api/explore?api_token=api_token', { query }).
         then(response => console.log(response.data))
     },
   },

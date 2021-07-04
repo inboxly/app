@@ -1,40 +1,31 @@
 <template>
   <q-page>
-    <top-bar title="Search" v-show="!focus"/>
-    <div class="q-pa-md">
-      <q-input
-        ref="input"
-        v-model="query"
-        label="Find specific article in your Inboxly"
-        debounce="1000"
-        clearable
-        @focus="focus = true"
-        @blur="focus = false"
-        @update:model-value="search"
-      >
-        <template #prepend>
-          <q-btn dense round :icon="focus ? 'arrow_back' : 'search'" @click="focus && $refs.input.blur()"/>
-        </template>
-      </q-input>
-    </div>
+    <top-bar title="Search" v-show="!focused"/>
+    <search-input
+      label="Find specific article in your Inboxly"
+      @search="search"
+      @blur="focused = false"
+      @focus="focused = true"
+    />
   </q-page>
 </template>
 
 <script>
 import TopBar from 'components/TopBar'
+import SearchInput from 'components/SearchInput'
 
 export default {
   name: 'PageSearch',
-  components: { TopBar },
+  components: { SearchInput, TopBar },
   data () {
     return {
-      focus: false,
+      focused: false,
       query: '',
     }
   },
   methods: {
-    search () {
-
+    search (query) {
+      console.log('Search: ' + query)
     },
   },
 }
