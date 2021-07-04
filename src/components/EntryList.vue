@@ -3,10 +3,11 @@
     <q-infinite-scroll @load="more" :disable="!nextUrl" :offset="250">
       <div v-for="(entry, index) in items" :key="index" class="q-mt-md">
         <q-card
-            :style="entry.is_read ? 'opacity: 0.6' : ''"
-            class="entry-card q-mb-lg non-selectable"
-            v-intersection="onIntersection"
-            :data-id="entry.id"
+          @contextmenu.prevent="contextMenu = true"
+          :style="entry.is_read ? 'opacity: 0.6' : ''"
+          class="entry-card q-mb-lg non-selectable"
+          v-intersection="onIntersection"
+          :data-id="entry.id"
         >
           <div class="q-mx-md">
             <!-- todo: Add rounded borders to image, but keeping aspect ratio -->
@@ -29,18 +30,22 @@
           <q-spinner-dots color="primary" size="40px"/>
         </div>
       </template>
-
     </q-infinite-scroll>
+    <entry-list-context-menu v-model="contextMenu"/>
   </q-pull-to-refresh>
 </template>
 
 <script>
+import EntryListContextMenu from 'components/EntryListContextMenu'
+
 export default {
   name: 'EntryList',
+  components: { EntryListContextMenu },
   data () {
     return {
       items: [],
       nextUrl: null,
+      contextMenu: false,
     }
   },
   props: {
