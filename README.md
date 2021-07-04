@@ -1,6 +1,9 @@
-# Inboxly (inboxly)
+# Inboxly App
 
-Inboxly App
+Inboxly app for mobile devices (android, ios).
+
+## Work in progress...
+The application is at the initial stage of development.
 
 ## Install the dependencies
 ```bash
@@ -18,5 +21,12 @@ quasar dev
 quasar build
 ```
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v2.quasar.dev/quasar-cli/quasar-conf-js).
+## Credits
+
+- [Sento Sango](https://github.com/sentosango)
+- [All Contributors](../../contributors)
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
