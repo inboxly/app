@@ -1,6 +1,10 @@
 <template>
   <q-page>
-    <top-bar title="Add content"/>
+    <top-bar title="Add content" v-show="!focus">
+      <template #right>
+        <q-btn dense flat round icon="translate"/>
+      </template>
+    </top-bar>
     <div class="q-pa-md">
       <q-input
         ref="input"
@@ -8,12 +12,12 @@
         label="Type a query or URL"
         debounce="1000"
         clearable
-        @focus="icon = 'arrow_back'"
-        @blur="icon = 'search'"
+        @focus="focus = true"
+        @blur="focus = false"
         @update:model-value="explore"
       >
-        <template v-slot:prepend>
-          <q-btn dense round :icon="icon" @click="$refs.input.blur()"/>
+        <template #prepend>
+          <q-btn dense round :icon="focus ? 'arrow_back' : 'search'" @click="focus && $refs.input.blur()"/>
         </template>
       </q-input>
     </div>
@@ -27,6 +31,7 @@ export default {
   name: 'PageAdd',
   data () {
     return {
+      focus: false,
       query: '',
       icon: 'search',
     }
