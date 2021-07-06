@@ -3,7 +3,7 @@
     <q-infinite-scroll @load="more" :disable="!nextUrl" :offset="250">
       <div v-for="(entry, index) in items" :key="index" class="q-mt-md">
         <q-card
-          @contextmenu.prevent="contextMenu = true"
+          @contextmenu.prevent="selectEntry(entry)"
           :style="entry.is_read ? 'opacity: 0.6' : ''"
           class="entry-card q-mb-lg non-selectable"
           v-intersection="onIntersection"
@@ -31,7 +31,11 @@
         </div>
       </template>
     </q-infinite-scroll>
-    <entry-list-context-menu v-model="contextMenu"/>
+    <entry-list-context-menu
+      :entry="selectedEntry"
+      v-model="showContextMenu"
+      @hide="unselectEntry"
+    />
   </q-pull-to-refresh>
 </template>
 
@@ -45,7 +49,8 @@ export default {
     return {
       items: [],
       nextUrl: null,
-      contextMenu: false,
+      showContextMenu: false,
+      selectedEntry: null,
     }
   },
   props: {
@@ -58,6 +63,13 @@ export default {
     this.loadEntries(this.url)
   },
   methods: {
+    selectEntry(entry) {
+      this.selectedEntry = entry
+      this.showContextMenu = true
+    },
+    unselectEntry() {
+      this.selectedEntry = null
+    },
     onIntersection (intersection) {
       if (intersection.boundingClientRect.bottom < 0) {
         const el = intersection.target
