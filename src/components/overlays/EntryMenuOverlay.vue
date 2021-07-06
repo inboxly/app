@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'EntryListContextMenu',
+  name: 'EntryMenuOverlay',
   props: ['value', 'entry'],
   setup () {
     return {}

@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <top-bar title="Search" v-show="!focused"/>
+    <bar title="Search" v-show="!focused"/>
     <search-input
       label="Find specific article in your Inboxly"
       @search="search"
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import TopBar from 'components/top-bar/TopBar'
-import SearchInput from 'components/SearchInput'
+import Bar from 'components/layout/Bar'
+import SearchInput from 'components/common/SearchInput'
 
 export default {
   name: 'SearchEntriesPage',
-  components: { SearchInput, TopBar },
+  components: { SearchInput, Bar },
   data () {
     return {
       focused: false,

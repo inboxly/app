@@ -211,7 +211,7 @@
 
 <script>
 export default {
-  name: 'MainMenu',
+  name: 'LeftNavigation',
   data () {
     return {
       link: '',

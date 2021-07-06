@@ -18,26 +18,26 @@
       </template>
     </q-infinite-scroll>
 
-    <entry-list-context-menu
+    <entry-menu-overlay
       :entry="selectedEntry"
-      v-model="showContextMenu"
+      v-model="showEntryMenu"
       @hide="unselectEntry"
     />
   </q-pull-to-refresh>
 </template>
 
 <script>
-import EntryListContextMenu from 'components/entry-list/EntryListContextMenu'
-import EntryListCard from 'components/entry-list/EntryListCard'
+import EntryMenuOverlay from 'components/overlays/EntryMenuOverlay'
+import EntryListCard from 'components/common/EntryListCard'
 
 export default {
   name: 'EntryList',
-  components: { EntryListCard, EntryListContextMenu },
+  components: { EntryListCard, EntryMenuOverlay },
   data () {
     return {
       entries: [],
       moreEntriesUrl: null,
-      showContextMenu: false,
+      showEntryMenu: false,
       selectedEntry: null,
     }
   },
@@ -67,7 +67,7 @@ export default {
     },
     selectEntry(entry) {
       this.selectedEntry = entry
-      this.showContextMenu = true
+      this.showEntryMenu = true
     },
     unselectEntry() {
       this.selectedEntry = null

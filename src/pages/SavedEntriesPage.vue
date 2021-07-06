@@ -1,26 +1,26 @@
 <template>
   <q-page>
-    <top-bar title="Read Later">
+    <bar title="Read Later">
       <template #left>
-        <progress-counter/>
+        <bar-circular-progress/>
       </template>
       <template #right>
-        <done-button/>
-        <more-button @click="moreMenu = true"/>
+        <bar-button icon="done"/>
+        <bar-button icon="more_horiz" @click="moreMenu = true"/>
       </template>
-    </top-bar>
+    </bar>
     <entry-list url="http://127.0.0.1:8000/api/saved/entries?api_token=api_token"/>
   </q-page>
 </template>
 
 <script>
-import EntryList from 'components/entry-list/EntryList'
-import TopBar from 'components/top-bar/TopBar'
-import ProgressCounter from 'components/top-bar/ProgressCounter'
-import DoneButton from 'components/top-bar/DoneButton'
-import MoreButton from 'components/top-bar/MoreButton'
+import Bar from 'components/layout/Bar'
+import BarButton from 'components/layout/BarButton'
+import BarCircularProgress from 'components/layout/BarCircularProgress'
+import EntryList from 'components/common/EntryList'
+
 export default {
   name: 'SavedEntriesPage',
-  components: { MoreButton, DoneButton, ProgressCounter, TopBar, EntryList },
+  components: { Bar, BarButton, BarCircularProgress, EntryList },
 }
 </script>

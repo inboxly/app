@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'TopBar',
+  name: 'Bar',
   props: {
     title: {
       type: String,

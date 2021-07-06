@@ -1,35 +1,34 @@
 <template>
   <q-page>
-    <top-bar title="All personal feeds">
+    <bar title="All personal feeds">
       <template #left>
-        <progress-counter/>
+        <bar-circular-progress/>
       </template>
       <template #right>
-        <done-button/>
-        <more-button @click="moreMenu = true"/>
+        <bar-button icon="done"/>
+        <bar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
-    </top-bar>
+    </bar>
 
     <entry-list url="http://127.0.0.1:8000/api/entries?unreadOnly=1&api_token=api_token"/>
-    <entry-list-more-menu v-model="moreMenu"/>
+    <entry-list-menu-overlay v-model="showEntryListMenu"/>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import EntryList from 'components/entry-list/EntryList'
-import TopBar from 'components/top-bar/TopBar'
-import ProgressCounter from 'components/top-bar/ProgressCounter'
-import EntryListMoreMenu from 'components/entry-list/EntryListMoreMenu'
-import DoneButton from 'components/top-bar/DoneButton'
-import MoreButton from 'components/top-bar/MoreButton'
+import Bar from 'components/layout/Bar'
+import BarButton from 'components/layout/BarButton'
+import BarCircularProgress from 'components/layout/BarCircularProgress'
+import EntryList from 'components/common/EntryList'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
 
 export default defineComponent({
   name: 'AllEntriesPage',
-  components: { MoreButton, DoneButton, EntryListMoreMenu, ProgressCounter, TopBar, EntryList },
+  components: { Bar, BarButton, BarCircularProgress, EntryList, EntryListMenuOverlay },
   data () {
     return {
-      moreMenu: false,
+      showEntryListMenu: false,
     }
   },
 })

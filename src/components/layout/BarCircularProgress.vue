@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  // name: 'ComponentName',
+  name: 'BarCircularProgress',
   setup () {
     return {}
   }
