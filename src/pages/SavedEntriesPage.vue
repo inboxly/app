@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <top-bar title="All personal feeds">
+    <top-bar title="Read Later">
       <template #left>
         <progress-counter/>
       </template>
@@ -9,28 +9,18 @@
         <more-button @click="moreMenu = true"/>
       </template>
     </top-bar>
-
-    <entry-list url="http://127.0.0.1:8000/api/entries?unreadOnly=1&api_token=api_token"/>
-    <entry-list-more-menu v-model="moreMenu"/>
+    <entry-list url="http://127.0.0.1:8000/api/saved/entries?api_token=api_token"/>
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
 import EntryList from 'components/entry-list/EntryList'
 import TopBar from 'components/top-bar/TopBar'
 import ProgressCounter from 'components/top-bar/ProgressCounter'
-import EntryListMoreMenu from 'components/entry-list/EntryListMoreMenu'
 import DoneButton from 'components/top-bar/DoneButton'
 import MoreButton from 'components/top-bar/MoreButton'
-
-export default defineComponent({
-  name: 'PageIndex',
-  components: { MoreButton, DoneButton, EntryListMoreMenu, ProgressCounter, TopBar, EntryList },
-  data () {
-    return {
-      moreMenu: false,
-    }
-  },
-})
+export default {
+  name: 'SavedEntriesPage',
+  components: { MoreButton, DoneButton, ProgressCounter, TopBar, EntryList },
+}
 </script>

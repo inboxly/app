@@ -20,7 +20,7 @@ import ChooseLanguageButton from 'components/top-bar/ChooseLanguageButton'
 import SearchInput from 'components/SearchInput'
 
 export default {
-  name: 'PageAdd',
+  name: 'SearchFeedsPage',
   data () {
     return {
       focused: false,

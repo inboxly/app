@@ -15,7 +15,7 @@ import TopBar from 'components/top-bar/TopBar'
 import SearchInput from 'components/SearchInput'
 
 export default {
-  name: 'PageSearch',
+  name: 'SearchEntriesPage',
   components: { SearchInput, TopBar },
   data () {
     return {

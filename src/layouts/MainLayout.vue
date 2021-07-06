@@ -17,12 +17,33 @@
         <q-btn
           icon="subject"
           @click="toggleLeftDrawer"
-          :class="{'text-primary': !['saved', 'index', 'add', 'search'].includes($route.name)}"
+          :class="{ 'text-primary': ![
+            'index',
+            'saved-entries',
+            'search-entries',
+            'search-feeds'
+          ].includes($route.name) }"
         />
-        <q-btn icon="bookmark_border" :to="{name: 'saved'}" :class="{'text-primary': $route.name === 'saved'}"/>
-        <q-btn icon="grid_view" :to="{name: 'index'}" :class="{'text-primary': $route.name === 'index'}"/>
-        <q-btn icon="add" :to="{name: 'add'}" :class="{'text-primary': $route.name === 'add'}"/>
-        <q-btn icon="search" :to="{name: 'search'}" :class="{'text-primary': $route.name === 'search'}"/>
+        <q-btn
+          icon="bookmark_border"
+          :to="{name: 'saved-entries'}"
+          :class="{'text-primary': $route.name === 'saved-entries'}"
+        />
+        <q-btn
+          icon="grid_view"
+          :to="{name: 'all-entries'}"
+          :class="{'text-primary': $route.name === 'all-entries'}"
+        />
+        <q-btn
+          icon="add"
+          :to="{name: 'search-feeds'}"
+          :class="{'text-primary': $route.name === 'search-feeds'}"
+        />
+        <q-btn
+          icon="search"
+          :to="{name: 'search-entries'}"
+          :class="{'text-primary': $route.name === 'search-entries'}"
+        />
       </q-btn-group>
     </q-footer>
 
