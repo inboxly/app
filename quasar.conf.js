@@ -74,6 +74,19 @@ module.exports = configure(function (ctx) {
       https: false,
       port: 8080,
       open: true, // opens browser window automatically
+      proxy: {
+        // proxy all requests starting with /api to jsonplaceholder
+        '/api': {
+          target: 'http://127.0.0.1:8000',
+          changeOrigin: true,
+          // pathRewrite: {
+          //   '^/api': ''
+          // }
+          headers: {
+            'Authorization': 'Bearer api_token',
+          },
+        }
+      }
     },
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework

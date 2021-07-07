@@ -9,8 +9,7 @@
         <bar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
     </bar>
-
-    <entry-list url="http://127.0.0.1:8000/api/entries?unreadOnly=1&api_token=api_token"/>
+    <entry-list url="/api/entries?unreadOnly=1"/>
     <entry-list-menu-overlay v-model="showEntryListMenu"/>
   </q-page>
 </template>

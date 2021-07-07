@@ -41,7 +41,7 @@ export default {
       }
     },
     markEntryAsRead (entryId) {
-      this.$axios.post('http://127.0.0.1:8000/api/read/entries?api_token=api_token', {
+      this.$api.post('/api/read/entries', {
         ids: [entryId],
       }).then(() => {
         this.entry.is_read = true

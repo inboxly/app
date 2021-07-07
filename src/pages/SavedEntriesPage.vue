@@ -9,7 +9,7 @@
         <bar-button icon="more_horiz" @click="moreMenu = true"/>
       </template>
     </bar>
-    <entry-list url="http://127.0.0.1:8000/api/saved/entries?api_token=api_token"/>
+    <entry-list url="/api/saved/entries"/>
   </q-page>
 </template>
 

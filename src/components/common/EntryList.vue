@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     loadEntries (url) {
-      return this.$axios.get(url).then(response => {
+      return this.$api.get(url).then(response => {
         const { data, links } = response.data
         this.entries.push(...data)
         this.nextUrl = links.next ? links.next : null

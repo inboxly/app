@@ -31,7 +31,7 @@ export default {
   methods: {
     explore (query) {
       console.log('Sent a query to explore: ' + query)
-      this.$axios.post('http://127.0.0.1:8000/api/explore?api_token=api_token', { query }).
+      this.$api.post('/api/explore', { query }).
         then(response => console.log(response.data))
     },
   },
