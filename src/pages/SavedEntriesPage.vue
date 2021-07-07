@@ -18,9 +18,15 @@ import Bar from 'components/layout/Bar'
 import BarButton from 'components/layout/BarButton'
 import BarCircularProgress from 'components/layout/BarCircularProgress'
 import EntryList from 'components/common/EntryList'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
 
 export default {
   name: 'SavedEntriesPage',
-  components: { Bar, BarButton, BarCircularProgress, EntryList },
+  components: { EntryListMenuOverlay, EntryList, BarButton, BarCircularProgress, Bar },
+  data () {
+    return {
+      showEntryListMenu: false,
+    }
+  }
 }
 </script>
