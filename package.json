@@ -6,7 +6,8 @@
   "author": "sentosango <sentosango@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "quasar dev -m electron",
+    "dev": "quasar dev",
+    "electron": "quasar dev -m electron",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
