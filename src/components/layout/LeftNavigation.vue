@@ -11,6 +11,7 @@
           :active="true"
           @click="link = 'today'"
           active-class="my-menu-link"
+          :to="{name: 'today-entries'}"
         >
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-primary" name="rss_feed"/>
@@ -24,10 +25,11 @@
           v-ripple
           :active="link === 'read_later'"
           @click="link = 'read_later'"
+          :to="{name: 'saved-entries'}"
           active-class="my-menu-link"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="bookmark_border" />
+            <q-icon class="text-grey" name="bookmark_border"/>
           </q-item-section>
 
           <q-item-section>Read Later</q-item-section>
@@ -41,7 +43,7 @@
           active-class="my-menu-link"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="workspace_premium" />
+            <q-icon class="text-grey" name="workspace_premium"/>
           </q-item-section>
 
           <q-item-section>Upgrade</q-item-section>
@@ -50,7 +52,7 @@
     </div>
 
     <div>
-      <q-list padding class="text-primary">
+      <q-list padding>
         <q-item-label class="q-py-none" header>Feeds</q-item-label>
         <q-item
           clickable
@@ -58,79 +60,82 @@
           :active="link === 'all'"
           @click="link = 'all'"
           active-class="my-menu-link"
+          :to="{name: 'all-entries'}"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="menu" />
+            <q-icon class="text-grey" name="menu"/>
           </q-item-section>
 
           <q-item-section>All</q-item-section>
         </q-item>
 
-        <q-item
-          clickable
+        <!--        <q-item-->
+        <!--          clickable-->
+        <!--          v-ripple-->
+        <!--          :active="link === 'favorite'"-->
+        <!--          @click="link = 'favorite'"-->
+        <!--          active-class="my-menu-link"-->
+        <!--        >-->
+        <!--          <q-item-section avatar style="min-width: auto">-->
+        <!--            <q-icon class="text-grey" name="folder_special"/>-->
+        <!--          </q-item-section>-->
+
+        <!--          <q-item-section>Favorite</q-item-section>-->
+        <!--        </q-item>-->
+
+        <q-tree
+          class="q-px-md"
+          node-key="title"
+          icon="chevron_right"
+          no-connectors
+          label-key="title"
+          children-key="feeds"
+          :nodes="categories"
           v-ripple
-          :active="link === 'favorite'"
-          @click="link = 'favorite'"
           active-class="my-menu-link"
         >
-          <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="folder_special" />
-          </q-item-section>
-
-          <q-item-section>Favorite</q-item-section>
-        </q-item>
-
-        <q-item
-          clickable
-          v-ripple
-          :active="link === 'some_category'"
-          @click="link = 'some_category'"
-          active-class="my-menu-link"
-        >
-          <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="chevron_right" />
-          </q-item-section>
-
-          <q-item-section>Some category</q-item-section>
-        </q-item>
+          <template v-slot:default-header="prop">
+            <div class="flex flex-center content-center q-my-xs">
+              <q-img
+                v-if="prop.node.image"
+                :src="prop.node.image"
+                width="1rem"
+                height="1rem"
+                class="q-pl-none q-ml-none"
+              />
+              <div
+                class="q-ml-md"
+                @click="goToCategoryOrFeed(prop.node)"
+                v-text="prop.node.title"
+              />
+            </div>
+          </template>
+        </q-tree>
       </q-list>
     </div>
 
     <div>
       <q-list padding class="text-primary">
         <q-item-label class="q-py-none" header>Boards</q-item-label>
-        <q-item
-          clickable
-          v-ripple
-          :active="link === 'some_board'"
-          @click="link = 'some_board'"
-          active-class="my-menu-link"
+        <q-item v-for="collection in collections" :key="collection.id"
+                clickable
+                v-ripple
+                :active="link === 'some_board'"
+                @click="link = 'some_board'"
+                active-class="my-menu-link"
+                :to="{name: 'collection-entries', params: {collectionId: collection.id}}"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="star_outline" />
+            <q-icon class="text-grey" name="star_outline"/>
           </q-item-section>
 
-          <q-item-section>Some board</q-item-section>
-        </q-item>
-
-        <q-item
-          clickable
-          v-ripple
-          :active="link === 'another_board'"
-          @click="link = 'another_board'"
-          active-class="my-menu-link"
-        >
-          <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="star_outline" />
-          </q-item-section>
-
-          <q-item-section>Another board</q-item-section>
+          <q-item-section>{{ collection.title }}</q-item-section>
         </q-item>
       </q-list>
     </div>
 
     <div class="q-pa-md text-grey">
-      <q-btn stretch outline class="full-width">Add content</q-btn>
+      <q-btn stretch outline class="full-width" :to="{name: 'search-feeds'}">Add content</q-btn>
     </div>
 
     <div>
@@ -141,9 +146,10 @@
           :active="link === 'recently_read'"
           @click="link = 'recently_read'"
           active-class="my-menu-link"
+          :to="{name: 'read-entries'}"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="schedule" />
+            <q-icon class="text-grey" name="schedule"/>
           </q-item-section>
 
           <q-item-section>Recently read</q-item-section>
@@ -157,7 +163,7 @@
           active-class="my-menu-link"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="nights_stay" />
+            <q-icon class="text-grey" name="nights_stay"/>
           </q-item-section>
 
           <q-item-section>Choose theme</q-item-section>
@@ -171,7 +177,7 @@
           active-class="my-menu-link"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="card_giftcard" />
+            <q-icon class="text-grey" name="card_giftcard"/>
           </q-item-section>
 
           <q-item-section>New features</q-item-section>
@@ -185,7 +191,7 @@
           active-class="my-menu-link"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="settings" />
+            <q-icon class="text-grey" name="settings"/>
           </q-item-section>
 
           <q-item-section>Settings</q-item-section>
@@ -199,7 +205,7 @@
           active-class="my-menu-link"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="power_settings_new" />
+            <q-icon class="text-grey" name="power_settings_new"/>
           </q-item-section>
 
           <q-item-section>Logout</q-item-section>
@@ -217,8 +223,24 @@ export default {
       link: '',
     }
   },
-  setup () {
-    return {}
-  }
+  methods: {
+    goToCategoryOrFeed (categoryOrFeed) {
+      categoryOrFeed.children
+        ? this.$router.push({ name: 'category-entries', params: { categoryId: categoryOrFeed.id } })
+        : this.$router.push({ name: 'feed-entries', params: { feedId: categoryOrFeed.id } })
+    },
+  },
+  computed: {
+    collections () {
+      return this.$store.state.collections
+    },
+    categories () {
+      return this.$store.state.categories.map(category => {
+        let cat = { ...category }
+        cat.children = cat.feeds
+        return cat
+      })
+    },
+  },
 }
 </script>
