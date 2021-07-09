@@ -44,6 +44,11 @@ const routes = [
         name: 'search-feeds',
         component: () => import('pages/SearchFeedsPage.vue'),
       },
+      {
+        path: 'today',
+        name: 'today-entries',
+        component: () => import('pages/TodayEntriesPage.vue'),
+      },
     ],
   },
 
