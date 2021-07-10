@@ -23,6 +23,10 @@
       v-model="showEntryMenu"
       @hide="unselectEntry"
     />
+
+    <div v-if="!entries.length" class="all-done row items-center justify-center">
+      <div>All done!</div>
+    </div>
   </q-pull-to-refresh>
 </template>
 
@@ -81,3 +85,11 @@ export default {
   },
 }
 </script>
+
+<style>
+.q-pull-to-refresh,
+.q-pull-to-refresh__content,
+.all-done {
+  min-height: inherit !important;
+}
+</style>
