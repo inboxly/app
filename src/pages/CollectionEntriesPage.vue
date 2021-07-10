@@ -5,7 +5,7 @@
         <bar-circular-progress/>
       </template>
       <template #right>
-        <bar-button icon="done"/>
+        <bar-button icon="done" @click="markAllAsRead"/>
         <bar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
     </bar>
@@ -28,6 +28,13 @@ export default {
     return {
       showEntryListMenu: false,
     }
+  },
+  methods: {
+    markAllAsRead () {
+      this.$api.post(`/api/read/collections/${this.$route.params.collectionId}`).then(() => {
+        this.$store.commit('setEntries', [])
+      })
+    },
   },
   computed: {
     url () {

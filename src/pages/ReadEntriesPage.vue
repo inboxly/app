@@ -5,7 +5,6 @@
         <bar-circular-progress/>
       </template>
       <template #right>
-        <bar-button icon="done"/>
         <bar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
     </bar>
