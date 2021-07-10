@@ -24,8 +24,11 @@
       @hide="unselectEntry"
     />
 
-    <div v-if="!entries.length" class="all-done row items-center justify-center">
-      <div>All done!</div>
+    <div
+      class="row items-center justify-center"
+      :style="!!entries.length ? 'min-height: 100vh' : 'min-height: inherit !important'"
+    >
+      <div v-if="!entries.length">All done!</div>
     </div>
   </q-pull-to-refresh>
 </template>
@@ -88,8 +91,7 @@ export default {
 
 <style>
 .q-pull-to-refresh,
-.q-pull-to-refresh__content,
-.all-done {
+.q-pull-to-refresh__content{
   min-height: inherit !important;
 }
 </style>
