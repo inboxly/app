@@ -36,16 +36,9 @@ export default {
 
       if (isAboveViewport) {
         const entryId = parseInt(intersection.target.dataset.id)
-        this.markEntryAsRead(entryId)
+        this.$store.dispatch('markEntryAsRead', entryId)
         return false
       }
-    },
-    markEntryAsRead (entryId) {
-      this.$api.post('/api/read/entries', {
-        ids: [entryId],
-      }).then(() => {
-        this.entry.is_read = true
-      })
     },
   },
   computed: {

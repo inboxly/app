@@ -2,7 +2,7 @@
   <q-pull-to-refresh @refresh="reloadEntries">
     <q-infinite-scroll
       @load="loadMoreEntries"
-      :disable="!moreEntriesUrl"
+      :disable="!nextUrl"
       :offset="250"
     >
       <entry-list-card
@@ -35,8 +35,7 @@ export default {
   components: { EntryListCard, EntryMenuOverlay },
   data () {
     return {
-      entries: [],
-      moreEntriesUrl: null,
+      nextUrl: null,
       showEntryMenu: false,
       selectedEntry: null,
     }
@@ -48,22 +47,29 @@ export default {
     },
   },
   created () {
-    this.loadEntries(this.url)
+    this.$store.dispatch('fetchEntries', this.url).then(nextUrl => {
+      this.nextUrl = nextUrl
+    })
+  },
+  computed: {
+    entries () {
+      return this.$store.state.entries
+    },
   },
   methods: {
-    loadEntries (url) {
-      return this.$api.get(url).then(response => {
-        const { data, links } = response.data
-        this.entries.push(...data)
-        this.nextUrl = links.next ? links.next : null
-      })
-    },
     loadMoreEntries (index, done) {
-      this.loadEntries(this.moreEntriesUrl).then(() => done())
+      if (this.nextUrl) {
+        this.$store.dispatch('fetchMoreEntries', this.nextUrl).then(nextUrl => {
+          this.nextUrl = nextUrl
+          done()
+        })
+      }
     },
     reloadEntries (done) {
-      this.entries = []
-      this.loadEntries(this.url).then(() => done())
+      this.$store.dispatch('fetchEntries', this.url).then(nextUrl => {
+        this.nextUrl = nextUrl
+        done()
+      })
     },
     selectEntry(entry) {
       this.selectedEntry = entry
