@@ -2,14 +2,14 @@
   <q-page>
     <bar title="All personal feeds">
       <template #left>
-        <bar-circular-progress/>
+        <bar-circular-progress :max="progressMax" :value="progressValue"/>
       </template>
       <template #right>
         <bar-button icon="done" @click="markAllAsRead"/>
         <bar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
     </bar>
-    <entry-list url="/api/entries?unreadOnly=1"/>
+    <entry-list url="/api/entries?unreadOnly=1" @refresh="progressMax = progressValue"/>
     <entry-list-menu-overlay v-model="showEntryListMenu"/>
   </q-page>
 </template>
@@ -28,13 +28,24 @@ export default defineComponent({
   data () {
     return {
       showEntryListMenu: false,
+      progressMax: 0,
     }
+  },
+  beforeMount () {
+    this.$store.dispatch('fetchFeedsCounts').then(
+      () => this.progressMax = this.progressValue
+    )
   },
   methods: {
     markAllAsRead () {
       this.$api.post('/api/read/all').then(() => {
         this.$store.commit('setEntries', [])
       })
+    },
+  },
+  computed: {
+    progressValue () {
+      return this.$store.getters.getAllEntriesCount
     },
   },
 })
