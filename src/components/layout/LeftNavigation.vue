@@ -95,19 +95,20 @@
           active-class="my-menu-link"
         >
           <template v-slot:default-header="prop">
-            <div class="flex flex-center content-center q-my-xs">
+            <div class="row full-width q-my-xs">
               <q-img
                 v-if="prop.node.image"
                 :src="prop.node.image"
                 width="1rem"
                 height="1rem"
-                class="q-pl-none q-ml-none"
+                class="q-pl-none q-ml-none col-auto"
               />
               <div
-                class="q-ml-md"
+                class="q-ml-md col ellipsis"
                 @click="goToCategoryOrFeed(prop.node)"
                 v-text="prop.node.title"
               />
+              <div class="col-auto text-right" v-text="categoryOrFeedCount(prop.node)"/>
             </div>
           </template>
         </q-tree>
@@ -228,6 +229,11 @@ export default {
       categoryOrFeed.children
         ? this.$router.push({ name: 'category-entries', params: { categoryId: categoryOrFeed.id } })
         : this.$router.push({ name: 'feed-entries', params: { feedId: categoryOrFeed.id } })
+    },
+    categoryOrFeedCount (categoryOrFeed) {
+      return categoryOrFeed.children
+        ? this.$store.getters.getCategoryEntriesCount(categoryOrFeed.id)
+        : this.$store.getters.getFeedEntriesCount(categoryOrFeed.id)
     },
   },
   computed: {
