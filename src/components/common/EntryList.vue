@@ -25,10 +25,11 @@
     />
 
     <div
+      v-if="!nextUrl"
       class="row items-center justify-center"
       :style="!!entries.length ? 'min-height: 100vh' : 'min-height: inherit !important'"
     >
-      <div v-if="!entries.length">All done!</div>
+      <div>All done!</div>
     </div>
   </q-pull-to-refresh>
 </template>
