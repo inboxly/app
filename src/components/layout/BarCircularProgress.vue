@@ -1,20 +1,28 @@
 <template>
   <q-circular-progress
     show-value
-    class="text-white q-ml-xs"
-    :max="875"
-    :value="142"
+    reverse
+    class="text-white q-ml-xs text-bold"
+    :max="max"
+    :value="value"
     size="1.6rem"
     color="white"
-    track-color="grey"
+    track-color="grey-7"
   />
 </template>
 
 <script>
 export default {
   name: 'BarCircularProgress',
-  setup () {
-    return {}
-  }
+  props: {
+    max: {
+      type: Number,
+      default: 0,
+    },
+    value: {
+      type: Number,
+      default: 0,
+    },
+  },
 }
 </script>
