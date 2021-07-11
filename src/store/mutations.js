@@ -1,3 +1,7 @@
+export function setFeedsCounts (state, feedsCounts) {
+  state.feedsCounts = feedsCounts
+}
+
 export function setCategories (state, categories) {
   state.categories = categories
 }
@@ -17,10 +21,17 @@ export function addEntries (state, entries) {
 export function markEntryAsRead (state, entryId) {
   const entry = state.entries.find(entry => entry.id === entryId)
 
-  if (entry) {
-    entry.is_read = true
-    state.entriesToMarkRead.push(entryId)
+  if (!entry) {
+    return
   }
+
+  entry.is_read = true
+  const feed = state.feedsCounts.find(feed => feed.id === entry.feed.id)
+
+  if (feed) {
+    feed.entries_count -= 1
+  }
+  state.entriesToMarkRead.push(entryId)
 }
 
 export function removeFromEntriesToMarkRead(state, ids) {
