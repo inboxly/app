@@ -95,7 +95,10 @@
           active-class="my-menu-link"
         >
           <template v-slot:default-header="prop">
-            <div class="row full-width q-my-xs">
+            <div
+              class="row full-width q-my-xs cursor-pointer"
+              @click="goToCategoryOrFeed(prop.node)"
+            >
               <q-img
                 v-if="prop.node.image"
                 :src="prop.node.image"
@@ -105,7 +108,6 @@
               />
               <div
                 class="q-ml-md col ellipsis"
-                @click="goToCategoryOrFeed(prop.node)"
                 v-text="prop.node.title"
               />
               <div class="col-auto text-right" v-text="categoryOrFeedCount(prop.node)"/>
