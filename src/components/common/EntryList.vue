@@ -74,10 +74,12 @@ export default {
       }
     },
     reloadEntries (done) {
+      this.$store.dispatch('fetchFeedsCounts')
       this.$store.dispatch('fetchEntries', this.url).then(nextUrl => {
         this.nextUrl = nextUrl
         done()
       })
+      this.$emit('refresh')
     },
     selectEntry(entry) {
       this.selectedEntry = entry
