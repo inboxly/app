@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <toolbar title="Feed title">
+    <toolbar :title="feed.title">
       <template #left>
         <toolbar-progress :max="progressMax" :value="progressValue"/>
       </template>
@@ -26,11 +26,15 @@ export default {
   components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
   data () {
     return {
+      feed: {},
       showEntryListMenu: false,
       progressMax: 0,
     }
   },
   beforeMount () {
+    this.$api.get(`/api/feeds/${this.$route.params.feedId}`).then(
+      response => this.feed = response.data.data
+    )
     this.$store.dispatch('fetchFeedsCounts').then(
       () => this.progressMax = this.progressValue,
     )

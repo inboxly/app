@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <toolbar title="Collection title">
+    <toolbar :title="collection.title">
       <template #left>
         <toolbar-progress/>
       </template>
@@ -40,6 +40,12 @@ export default {
     url () {
       const collectionId = this.$route.params.collectionId
       return `/api/collections/${collectionId}/entries?unreadOnly=1`
+    },
+    collection() {
+      const collection = this.$store.state.collections.find(
+        collection => collection.id === parseInt(this.$route.params.collectionId)
+      )
+      return collection || {}
     },
   },
 }

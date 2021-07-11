@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <toolbar title="Category title">
+    <toolbar :title="category.title">
       <template #left>
         <toolbar-progress :max="progressMax" :value="progressValue"/>
       </template>
@@ -48,6 +48,10 @@ export default {
     },
     progressValue () {
       return this.$store.getters.getCategoryEntriesCount(parseInt(this.$route.params.categoryId))
+    },
+    category() {
+      const category = this.$store.state.categories.find(category => category.id === parseInt(this.$route.params.categoryId))
+      return category || {}
     },
   },
 }
