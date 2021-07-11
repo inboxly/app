@@ -1,28 +1,28 @@
 <template>
   <q-page>
-    <bar title="Recently Read">
+    <toolbar title="Recently Read">
       <template #left>
-        <bar-circular-progress/>
+        <toolbar-progress/>
       </template>
       <template #right>
-        <bar-button icon="more_horiz" @click="showEntryListMenu = true"/>
+        <toolbar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
-    </bar>
+    </toolbar>
     <entry-list url="/api/entries?readOnly=1"/>
     <entry-list-menu-overlay v-model="showEntryListMenu"/>
   </q-page>
 </template>
 
 <script>
-import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
 import EntryList from 'components/common/EntryList'
-import BarButton from 'components/layout/BarButton'
-import BarCircularProgress from 'components/layout/BarCircularProgress'
-import Bar from 'components/layout/Bar'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
+import Toolbar from 'components/layout/Toolbar'
+import ToolbarButton from 'components/layout/ToolbarButton'
+import ToolbarProgress from 'components/layout/ToolbarProgress'
 
 export default {
   name: 'ReadEntriesPage',
-  components: { EntryListMenuOverlay, EntryList, BarButton, BarCircularProgress, Bar },
+  components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
   data () {
     return {
       showEntryListMenu: false,

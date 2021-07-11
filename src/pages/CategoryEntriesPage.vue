@@ -1,28 +1,28 @@
 <template>
   <q-page>
-    <bar title="Category title">
+    <toolbar title="Category title">
       <template #left>
-        <bar-circular-progress :max="progressMax" :value="progressValue"/>
+        <toolbar-progress :max="progressMax" :value="progressValue"/>
       </template>
       <template #right>
-        <bar-button icon="done" @click="markAllAsRead"/>
-        <bar-button icon="more_horiz" @click="showEntryListMenu = true"/>
+        <toolbar-button icon="done" @click="markAllAsRead"/>
+        <toolbar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
-    </bar>
+    </toolbar>
     <entry-list :url="url" @refresh="progressMax = progressValue"/>
     <entry-list-menu-overlay v-model="showEntryListMenu"/>
   </q-page>
 </template>
 
 <script>
-import Bar from 'components/layout/Bar'
-import BarCircularProgress from 'components/layout/BarCircularProgress'
-import BarButton from 'components/layout/BarButton'
 import EntryList from 'components/common/EntryList'
 import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
+import Toolbar from 'components/layout/Toolbar'
+import ToolbarButton from 'components/layout/ToolbarButton'
+import ToolbarProgress from 'components/layout/ToolbarProgress'
 export default {
   name: 'CategoryEntriesPage',
-  components: { EntryListMenuOverlay, EntryList, BarButton, BarCircularProgress, Bar },
+  components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
   data () {
     return {
       showEntryListMenu: false,

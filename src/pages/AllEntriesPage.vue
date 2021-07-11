@@ -1,14 +1,14 @@
 <template>
   <q-page>
-    <bar title="All personal feeds">
+    <toolbar title="All personal feeds">
       <template #left>
-        <bar-circular-progress :max="progressMax" :value="progressValue"/>
+        <toolbar-progress :max="progressMax" :value="progressValue"/>
       </template>
       <template #right>
-        <bar-button icon="done" @click="markAllAsRead"/>
-        <bar-button icon="more_horiz" @click="showEntryListMenu = true"/>
+        <toolbar-button icon="done" @click="markAllAsRead"/>
+        <toolbar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
-    </bar>
+    </toolbar>
     <entry-list url="/api/entries?unreadOnly=1" @refresh="progressMax = progressValue"/>
     <entry-list-menu-overlay v-model="showEntryListMenu"/>
   </q-page>
@@ -16,15 +16,15 @@
 
 <script>
 import { defineComponent } from 'vue'
-import Bar from 'components/layout/Bar'
-import BarButton from 'components/layout/BarButton'
-import BarCircularProgress from 'components/layout/BarCircularProgress'
 import EntryList from 'components/common/EntryList'
 import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
+import Toolbar from 'components/layout/Toolbar'
+import ToolbarButton from 'components/layout/ToolbarButton'
+import ToolbarProgress from 'components/layout/ToolbarProgress'
 
 export default defineComponent({
   name: 'AllEntriesPage',
-  components: { Bar, BarButton, BarCircularProgress, EntryList, EntryListMenuOverlay },
+  components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
   data () {
     return {
       showEntryListMenu: false,

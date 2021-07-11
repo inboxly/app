@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'BarCircularProgress',
+  name: 'ToolbarProgress',
   props: {
     max: {
       type: Number,

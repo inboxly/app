@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'BarButton',
+  name: 'ToolbarButton',
   props: {
     icon: {
       type: String,

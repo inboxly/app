@@ -1,10 +1,10 @@
 <template>
   <q-page>
-    <bar title="Add content" v-show="!focused">
+    <toolbar title="Add content" v-show="!focused">
       <template #right>
-        <bar-button icon="translate"/>
+        <toolbar-button icon="translate"/>
       </template>
-    </bar>
+    </toolbar>
     <search-input
       label="Type a query or URL"
       @search="explore"
@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import Bar from 'components/layout/Bar'
-import BarButton from 'components/layout/BarButton'
 import SearchInput from 'components/common/SearchInput'
+import Toolbar from 'components/layout/Toolbar'
+import ToolbarButton from 'components/layout/ToolbarButton'
 
 export default {
   name: 'SearchFeedsPage',
@@ -27,7 +27,7 @@ export default {
       icon: 'search',
     }
   },
-  components: { Bar, BarButton, SearchInput },
+  components: { SearchInput, Toolbar, ToolbarButton },
   methods: {
     explore (query) {
       console.log('Sent a query to explore: ' + query)

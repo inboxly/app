@@ -1,28 +1,28 @@
 <template>
   <q-page>
-    <bar title="Read Later">
+    <toolbar title="Read Later">
       <template #left>
-        <bar-circular-progress/>
+        <toolbar-progress/>
       </template>
       <template #right>
-        <bar-button icon="done" @click="markAllAsRead"/>
-        <bar-button icon="more_horiz" @click="moreMenu = true"/>
+        <toolbar-button icon="done" @click="markAllAsRead"/>
+        <toolbar-button icon="more_horiz" @click="moreMenu = true"/>
       </template>
-    </bar>
+    </toolbar>
     <entry-list url="/api/saved/entries"/>
   </q-page>
 </template>
 
 <script>
-import Bar from 'components/layout/Bar'
-import BarButton from 'components/layout/BarButton'
-import BarCircularProgress from 'components/layout/BarCircularProgress'
 import EntryList from 'components/common/EntryList'
 import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
+import Toolbar from 'components/layout/Toolbar'
+import ToolbarButton from 'components/layout/ToolbarButton'
+import ToolbarProgress from 'components/layout/ToolbarProgress'
 
 export default {
   name: 'SavedEntriesPage',
-  components: { EntryListMenuOverlay, EntryList, BarButton, BarCircularProgress, Bar },
+  components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
   data () {
     return {
       showEntryListMenu: false,
