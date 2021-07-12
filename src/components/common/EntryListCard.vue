@@ -12,7 +12,9 @@
 
     <q-card-section>
       <div class="text-subtitle1">{{ entry.title }}</div>
-      <div class="text-subtitle2 text-grey" v-text="feedTitle"/>
+      <div class="text-subtitle2 text-grey">
+        <span v-text="feedTitle"/> / <span v-text="createdDuration" :title="createdDate"/>
+      </div>
     </q-card-section>
 
     <q-card-section v-show="entry.description" class="q-pt-none text-grey">
@@ -22,6 +24,7 @@
 </template>
 
 <script>
+import { format } from 'timeago.js';
 export default {
   name: 'EntryListCard',
   props: {
@@ -46,6 +49,13 @@ export default {
       const title = this.entry.feed.custom_title ?? this.entry.feed.title
       const author = (this.entry.author && this.entry.author.name) || ''
       return title === author ? title : title + ' by ' + author
+    },
+    createdDate () {
+      const date = new Date(this.entry.created_at)
+      return date.toLocaleString("en-CA")
+    },
+    createdDuration () {
+      return format(new Date(this.entry.created_at))
     },
   },
 }
