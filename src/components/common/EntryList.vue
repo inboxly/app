@@ -5,12 +5,17 @@
       :disable="!nextUrl"
       :offset="250"
     >
-      <entry-list-card
-        v-for="entry in entries"
+      <template
+        v-for="(entry, index) in entries"
         :key="entry.id"
-        :entry="entry"
-        @contextmenu.prevent="selectEntry(entry)"
-      />
+      >
+        <div
+          class="text-primary text-bold q-ma-md q-mt-lg"
+          v-if="index === 0 || (dateLabel(entry.created_at) !== dateLabel(entries[index -1].created_at))"
+          v-text="dateLabel(entry.created_at)"
+        />
+        <entry-list-card :entry="entry" @contextmenu.prevent="selectEntry(entry)"/>
+      </template>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
           <q-spinner-dots color="primary" size="40px"/>
@@ -62,6 +67,23 @@ export default {
   computed: {
     entries () {
       return this.$store.state.entries
+    },
+    dateLabel () {
+      return date => {
+        const dateLabel = (new Date(date)).toLocaleDateString('en-CA')
+        const today = new Date()
+        const yesterday = new Date()
+        yesterday.setDate(today.getDate() - 1)
+
+        switch (dateLabel) {
+          case today.toLocaleDateString('en-CA'):
+            return 'Today'
+          case yesterday.toLocaleDateString('en-CA'):
+            return 'Yesterday'
+          default:
+            return dateLabel
+        }
+      }
     },
   },
   methods: {
