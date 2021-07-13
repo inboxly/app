@@ -64,9 +64,10 @@ export function markEntryAsRead (context, entryId) {
       clearTimeout(markAsReadTimeout)
     }
 
-    markAsReadTimeout = setTimeout(
-      () => context.dispatch('sendMarkEntriesAsRead'),
-      1000,
-    )
+    markAsReadTimeout = setTimeout(() => {
+      if (context.state.entriesToMarkRead.length) {
+        return context.dispatch('sendMarkEntriesAsRead')
+      }
+    }, 1000)
   }
 }
