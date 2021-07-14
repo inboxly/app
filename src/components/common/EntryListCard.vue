@@ -1,25 +1,24 @@
 <template>
   <q-card
     :style="entry.is_read ? 'opacity: 0.6' : ''"
-    class="entry-card q-my-md non-selectable"
+    class="entry-card q-mt-md q-mb-lg non-selectable"
     v-intersection="handleIntersection"
     :data-id="entry.id"
   >
-    <div class="q-mx-md">
-      <!-- todo: Add rounded borders to image, but keeping aspect ratio -->
-      <q-img :ratio="8/5" :src="entry.image"/>
+    <div class="q-mx-md q-my-sm">
+      <q-img class="rounded-borders" :ratio="8/5" :src="entry.image"/>
     </div>
 
-    <q-card-section>
-      <div class="text-subtitle1">{{ entry.title }}</div>
-      <div class="text-subtitle2 text-grey row no-wrap">
+    <q-card-section class="q-py-none">
+      <div class="entry-title text-subtitle1 q-my-xs">{{ entry.title }}</div>
+      <div class="entry-subtitle text-subtitle2 q-my-xs text-grey row no-wrap">
         <div class="ellipsis" v-text="feedTitle"/>
         <div class="q-mx-xs col-auto">/</div>
         <div class="col-auto" :title="createdDate">{{ createdDuration }}</div>
       </div>
     </q-card-section>
 
-    <q-card-section v-show="entry.description" class="q-pt-none text-grey">
+    <q-card-section v-show="entry.description" class="entry-description q-pt-none text-grey">
       {{ entry.description }}
     </q-card-section>
   </q-card>
@@ -63,3 +62,12 @@ export default {
   },
 }
 </script>
+
+<style>
+.entry-title {
+  line-height: 1.4;
+}
+.entry-description {
+  line-height: 1.4;
+}
+</style>

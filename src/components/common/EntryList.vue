@@ -10,7 +10,7 @@
         :key="entry.id"
       >
         <div
-          class="text-primary text-bold q-ma-md q-mt-lg"
+          class="text-primary text-bold q-ma-md"
           v-if="index === 0 || (dateLabel(entry.created_at) !== dateLabel(entries[index -1].created_at))"
           v-text="dateLabel(entry.created_at)"
         />
