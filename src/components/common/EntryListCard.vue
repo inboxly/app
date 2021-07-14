@@ -6,7 +6,7 @@
     :data-id="entry.id"
   >
     <div class="q-mx-md q-my-sm">
-      <q-img class="rounded-borders" :ratio="8/5" :src="entry.image"/>
+      <q-img class="rounded-borders" :ratio="8/5" :src="entry.image || entry.feed.image"/>
     </div>
 
     <q-card-section class="q-py-none">
