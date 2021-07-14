@@ -12,7 +12,7 @@
     <q-card-section class="q-py-none">
       <div class="entry-title text-subtitle1 q-my-xs">{{ entry.title }}</div>
       <div class="entry-subtitle text-subtitle2 q-my-xs text-grey row no-wrap">
-        <div class="ellipsis" v-text="feedTitle"/>
+        <div class="ellipsis" v-text="feedTitle" :title="feedTitle"/>
         <div class="q-mx-xs col-auto">/</div>
         <div class="col-auto" :title="createdDate">{{ createdDuration }}</div>
       </div>
