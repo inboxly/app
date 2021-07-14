@@ -15,7 +15,6 @@
         </div>
       </q-toolbar>
       <q-card
-        :style="entry.is_read ? 'opacity: 0.6' : ''"
         class="entry-card q-mt-md q-mb-lg non-selectable"
         :data-id="entry.id"
       >
