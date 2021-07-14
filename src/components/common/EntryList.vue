@@ -14,7 +14,7 @@
           v-if="index === 0 || (dateLabel(entry.created_at) !== dateLabel(entries[index -1].created_at))"
           v-text="dateLabel(entry.created_at)"
         />
-        <entry-list-card :entry="entry" @contextmenu.prevent="selectEntry(entry)"/>
+        <entry-list-card :entry="entry" @contextmenu.prevent="selectEntry(entry)" @click="openEntry(entry)"/>
       </template>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
@@ -40,12 +40,13 @@
 </template>
 
 <script>
-import EntryMenuOverlay from 'components/overlays/EntryMenuOverlay'
 import EntryListCard from 'components/common/EntryListCard'
+import EntryMenuOverlay from 'components/overlays/EntryMenuOverlay'
+import EntryOverlay from 'components/overlays/EntryOverlay'
 
 export default {
   name: 'EntryList',
-  components: { EntryListCard, EntryMenuOverlay },
+  components: { EntryListCard, EntryMenuOverlay, EntryOverlay },
   data () {
     return {
       nextUrl: null,
@@ -109,6 +110,12 @@ export default {
     },
     unselectEntry() {
       this.selectedEntry = null
+    },
+    openEntry(entry) {
+      this.$q.dialog({
+        component: EntryOverlay,
+        componentProps: { entry }
+      })
     },
   },
 }
