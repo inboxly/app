@@ -33,6 +33,22 @@ export function markEntryAsRead (state, entryId) {
   }
   state.entriesToMarkRead.push(entryId)
 }
+export function markEntryAsUnread (state, entryId) {
+  const entry = state.entries.find(entry => entry.id === entryId)
+
+  if (!entry) {
+    return
+  }
+
+  entry.is_read = false
+
+  const feed = state.feedsCounts.find(feed => feed.id === entry.feed.id)
+
+  if (feed) {
+    feed.entries_count -= 1
+  }
+  state.entriesToMarkRead.push(entryId)
+}
 
 export function removeFromEntriesToMarkRead(state, ids) {
   state.entriesToMarkRead = state.entriesToMarkRead.filter(

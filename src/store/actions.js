@@ -71,3 +71,13 @@ export function markEntryAsRead (context, entryId) {
     }, 1000)
   }
 }
+
+export function markEntryAsUnread (context, entryId) {
+  context.commit('markEntryAsUnread', entryId)
+
+  return api.delete('/api/read/entries', { data: { ids: [entryId] } }).
+    catch(() => {
+      console.log('Fail on send mark entry as unread.', entryId)
+      // todo revert entry mark and feeds counts
+    })
+}
