@@ -3,7 +3,7 @@ import { api } from 'boot/axios'
 let markAsReadTimeout = null
 
 // todo: The server must return a relative url (without protocol, host, port)
-function hotfixNextUrl(nextUrl) {
+function hotfixNextUrl (nextUrl) {
   return (nextUrl && nextUrl.startsWith('http'))
     ? nextUrl.slice(nextUrl.indexOf('/api'))
     : nextUrl
@@ -49,27 +49,22 @@ export function sendMarkEntriesAsRead (context) {
     context.commit('removeFromEntriesToMarkRead', ids)
   }).catch(() => {
     console.log('Fail on send mark entries as read.', ids)
+    // todo: revert entries marks end feeds counts
   })
 }
 
 export function markEntryAsRead (context, entryId) {
   context.commit('markEntryAsRead', entryId)
 
-  const entry = context.state.entries.find(entry => entry.id === entryId)
-
-  if (entry) {
-    entry.is_read = true
-
-    if (markAsReadTimeout) {
-      clearTimeout(markAsReadTimeout)
-    }
-
-    markAsReadTimeout = setTimeout(() => {
-      if (context.state.entriesToMarkRead.length) {
-        return context.dispatch('sendMarkEntriesAsRead')
-      }
-    }, 1000)
+  if (markAsReadTimeout) {
+    clearTimeout(markAsReadTimeout)
   }
+
+  markAsReadTimeout = setTimeout(() => {
+    if (context.state.entriesToMarkRead.length) {
+      return context.dispatch('sendMarkEntriesAsRead')
+    }
+  }, 1000)
 }
 
 export function markEntryAsUnread (context, entryId) {
