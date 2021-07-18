@@ -78,10 +78,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.q-pull-to-refresh,
-.q-pull-to-refresh__content{
-  min-height: inherit !important;
-}
-</style>
