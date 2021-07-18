@@ -9,11 +9,7 @@
         v-for="(entry, index) in entries"
         :key="entry.id"
       >
-        <div
-          class="text-primary text-bold q-ma-md"
-          v-if="index === 0 || (dateLabel(entry.created_at) !== dateLabel(entries[index -1].created_at))"
-          v-text="dateLabel(entry.created_at)"
-        />
+        <date-label :date="entry.created_at" :prev-date="entries[index -1]?.created_at"/>
         <entry-list-card :entry="entry" @contextmenu.prevent="openEntryMenu(entry)" @click="openEntry(entry)"/>
       </template>
       <template v-slot:loading>
@@ -34,13 +30,14 @@
 </template>
 
 <script>
+import DateLabel from 'components/common/DateLabel'
 import EntryListCard from 'components/common/EntryListCard'
 import EntryMenuOverlay from 'components/overlays/EntryMenuOverlay'
 import EntryOverlay from 'components/overlays/EntryOverlay'
 
 export default {
   name: 'EntryList',
-  components: { EntryListCard, EntryMenuOverlay, EntryOverlay },
+  components: { DateLabel, EntryListCard, EntryMenuOverlay, EntryOverlay },
   data () {
     return {
       nextUrl: null,
@@ -60,23 +57,6 @@ export default {
   computed: {
     entries () {
       return this.$store.state.entries
-    },
-    dateLabel () {
-      return date => {
-        const dateLabel = (new Date(date)).toLocaleDateString('en-CA')
-        const today = new Date()
-        const yesterday = new Date()
-        yesterday.setDate(today.getDate() - 1)
-
-        switch (dateLabel) {
-          case today.toLocaleDateString('en-CA'):
-            return 'Today'
-          case yesterday.toLocaleDateString('en-CA'):
-            return 'Yesterday'
-          default:
-            return dateLabel
-        }
-      }
     },
   },
   methods: {
