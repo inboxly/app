@@ -1,10 +1,10 @@
 <template>
-  <q-pull-to-refresh @refresh="reloadEntries">
-    <q-infinite-scroll
-      @load="loadMoreEntries"
-      :disable="!nextUrl"
-      :offset="250"
-    >
+  <scrollable
+    :disable="!nextUrl"
+    :min-height="!!entries.length ? '100vh' : 'inherit'"
+    @refresh="reloadEntries"
+    @load="loadMoreEntries"
+  >
       <template
         v-for="(entry, index) in entries"
         :key="entry.id"
@@ -12,21 +12,7 @@
         <date-label :date="entry.created_at" :prev-date="entries[index -1]?.created_at"/>
         <entry-list-card :entry="entry" @contextmenu.prevent="openEntryMenu(entry)" @click="openEntry(entry)"/>
       </template>
-      <template v-slot:loading>
-        <div class="row justify-center q-my-md">
-          <q-spinner-dots color="primary" size="40px"/>
-        </div>
-      </template>
-    </q-infinite-scroll>
-
-    <div
-      v-if="!nextUrl"
-      class="row items-center justify-center"
-      :style="!!entries.length ? 'min-height: 100vh' : 'min-height: inherit !important'"
-    >
-      <div>All done!</div>
-    </div>
-  </q-pull-to-refresh>
+  </scrollable>
 </template>
 
 <script>
@@ -34,10 +20,11 @@ import DateLabel from 'components/common/DateLabel'
 import EntryListCard from 'components/common/EntryListCard'
 import EntryMenuOverlay from 'components/overlays/EntryMenuOverlay'
 import EntryOverlay from 'components/overlays/EntryOverlay'
+import Scrollable from 'components/common/Scrollable'
 
 export default {
   name: 'EntryList',
-  components: { DateLabel, EntryListCard, EntryMenuOverlay, EntryOverlay },
+  components: { DateLabel, EntryListCard, EntryMenuOverlay, EntryOverlay, Scrollable },
   data () {
     return {
       nextUrl: null,
