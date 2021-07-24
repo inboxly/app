@@ -1,10 +1,5 @@
 <template>
-  <q-card
-    :style="entry.is_read ? 'opacity: 0.6' : ''"
-    class="entry-card q-mt-md q-mb-lg non-selectable"
-    v-intersection="handleIntersection"
-    :data-id="entry.id"
-  >
+  <q-card class="entry-card q-mt-md q-mb-lg non-selectable">
     <div class="q-mx-md q-my-sm">
       <q-img no-native-menu class="rounded-borders" :ratio="8/5" :src="entry.image || entry.feed.image"/>
     </div>
@@ -18,8 +13,10 @@
       </div>
     </q-card-section>
 
-    <q-card-section v-show="entry.description" class="entry-description q-pt-none text-grey">
-      {{ entry.description }}
+    <q-card-section class="entry-text q-pt-none text-grey">
+      <slot>
+        <div v-show="entry.description" v-text="entry.description"/>
+      </slot>
     </q-card-section>
   </q-card>
 </template>
@@ -28,22 +25,11 @@
 import { format } from 'timeago.js'
 
 export default {
-  name: 'EntryListCard',
+  name: 'Entry',
   props: {
     entry: {
       type: Object,
       default: () => {},
-    },
-  },
-  methods: {
-    handleIntersection (intersection) {
-      const isAboveViewport = intersection.boundingClientRect.bottom < 0
-
-      if (isAboveViewport) {
-        const entryId = parseInt(intersection.target.dataset.id)
-        this.$store.dispatch('markEntryAsRead', entryId)
-        return false
-      }
     },
   },
   computed: {
@@ -67,7 +53,7 @@ export default {
 .entry-title {
   line-height: 1.4;
 }
-.entry-description {
+.entry-text {
   line-height: 1.4;
 }
 </style>

@@ -9,22 +9,32 @@
         v-for="(entry, index) in entries"
         :key="entry.id"
       >
-        <date-label :date="entry.created_at" :prev-date="entries[index -1]?.created_at"/>
-        <entry-list-card :entry="entry" @contextmenu.prevent="openEntryMenu(entry)" @click="openEntry(entry)"/>
+        <date-label
+          :date="entry.created_at"
+          :prev-date="entries[index -1]?.created_at"
+        />
+        <entry
+          :style="entry.is_read ? 'opacity: 0.6' : ''"
+          :entry="entry"
+          :data-id="entry.id"
+          v-intersection="handleIntersection"
+          @click="openEntry(entry)"
+          @contextmenu.prevent="openEntryMenu(entry)"
+        />
       </template>
   </scrollable>
 </template>
 
 <script>
 import DateLabel from 'components/common/DateLabel'
-import EntryListCard from 'components/common/EntryListCard'
+import Entry from 'components/common/Entry'
 import EntryMenuOverlay from 'components/overlays/EntryMenuOverlay'
 import EntryOverlay from 'components/overlays/EntryOverlay'
 import Scrollable from 'components/common/Scrollable'
 
 export default {
   name: 'EntryList',
-  components: { DateLabel, EntryListCard, EntryMenuOverlay, EntryOverlay, Scrollable },
+  components: { DateLabel, Entry, EntryMenuOverlay, EntryOverlay, Scrollable },
   data () {
     return {
       nextUrl: null,
@@ -47,6 +57,15 @@ export default {
     },
   },
   methods: {
+    handleIntersection (intersection) {
+      const isAboveViewport = intersection.boundingClientRect.bottom < 0
+
+      if (isAboveViewport) {
+        const entryId = parseInt(intersection.target.dataset.id)
+        this.$store.dispatch('markEntryAsRead', entryId)
+        return false
+      }
+    },
     loadMoreEntries (index, done) {
       if (this.nextUrl) {
         this.$store.dispatch('fetchMoreEntries', this.nextUrl).then(nextUrl => {
