@@ -1,16 +1,16 @@
 <template>
   <q-slide-transition>
-    <q-header reveal bordered class="bg-black text-white">
+    <q-header reveal class="bg-black text-white">
       <q-toolbar class="row">
-        <div class="col text-left">
+        <div class="col text-left q-gutter-x-xs">
           <slot name="left"/>
         </div>
 
-        <q-toolbar-title class="text-center text-subtitle1 col-7">
+        <q-toolbar-title class="text-center text-subtitle1 col-shrink">
           {{ title }}
         </q-toolbar-title>
 
-        <div class="col text-right">
+        <div class="col text-right q-gutter-x-xs">
           <slot name="right"/>
         </div>
       </q-toolbar>
