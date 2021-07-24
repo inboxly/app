@@ -6,9 +6,9 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'App',
-  preFetch({store}) {
-    store.dispatch('fetchCategories')
-    store.dispatch('fetchCollections')
+  async preFetch({store}) {
+    await store.dispatch('fetchCategories')
+    await store.dispatch('fetchCollections')
   },
 })
 </script>
