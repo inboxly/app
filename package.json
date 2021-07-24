@@ -6,7 +6,7 @@
   "author": "sentosango <sentosango@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "quasar dev",
+    "dev": "quasar dev --mode pwa",
     "electron": "quasar dev -m electron",
     "test": "echo \"No test specified\" && exit 0"
   },
@@ -22,7 +22,8 @@
     "@quasar/app": "^3.0.0",
     "@vue/devtools": "^5.3.4",
     "electron": "^13.1.4",
-    "electron-packager": "^15.2.0"
+    "electron-packager": "^15.2.0",
+    "workbox-webpack-plugin": "^6.1.5"
   },
   "browserslist": [
     "last 10 Chrome versions",

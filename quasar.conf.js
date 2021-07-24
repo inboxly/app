@@ -72,12 +72,13 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
+      host: '0.0.0.0',
       port: 8080,
       open: true, // opens browser window automatically
       proxy: {
         // proxy all requests starting with /api to jsonplaceholder
         '/api': {
-          target: 'http://127.0.0.1:8000',
+          target: 'http://0.0.0.0:8000',
           changeOrigin: true,
           // pathRewrite: {
           //   '^/api': ''
@@ -156,7 +157,7 @@ module.exports = configure(function (ctx) {
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#000000',
-        theme_color: '#ffffff',
+        theme_color: '#00000000',
         icons: [
           {
             src: 'icons/icon-128x128.png',
