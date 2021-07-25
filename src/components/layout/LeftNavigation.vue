@@ -119,12 +119,12 @@
 
     <div>
       <q-list padding class="text-primary">
-        <q-item-label class="q-py-none" header>Boards</q-item-label>
+        <q-item-label class="q-py-none" header>Collections</q-item-label>
         <q-item v-for="collection in collections" :key="collection.id"
                 clickable
                 v-ripple
-                :active="link === 'some_board'"
-                @click="link = 'some_board'"
+                :active="link === 'some_collection'"
+                @click="link = 'some_collection'"
                 active-class="my-menu-link"
                 :to="{name: 'collection-entries', params: {collectionId: collection.id}}"
         >
