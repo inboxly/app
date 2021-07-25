@@ -10,7 +10,7 @@
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-grey" name="star_outline"/>
           </q-item-section>
-          <q-item-section>Save to board</q-item-section>
+          <q-item-section @click="showSaveToCollectionOverlay">Save to collection</q-item-section>
         </q-item>
         <q-item clickable v-ripple>
           <q-item-section avatar style="min-width: auto">
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import SaveToCollectionOverlay from 'components/overlays/SaveToCollectionOverlay'
+
 export default {
   name: 'EntryMenuOverlay',
   props: ['entry'],
@@ -51,6 +53,12 @@ export default {
     markAsUnread() {
       console.log('mark unread')
       this.$store.dispatch('markEntryAsUnread', this.entry.id)
+    },
+    showSaveToCollectionOverlay() {
+      this.$q.dialog({
+        component: SaveToCollectionOverlay,
+        componentProps: { entry: this.entry }
+      })
     },
   },
 }
