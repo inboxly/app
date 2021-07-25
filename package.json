@@ -6,8 +6,9 @@
   "author": "sentosango <sentosango@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "quasar dev --mode pwa",
-    "electron": "quasar dev -m electron",
+    "dev": "quasar dev",
+    "pwa": "quasar dev --mode pwa",
+    "electron": "quasar dev --mode electron",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
