@@ -44,7 +44,8 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      env: require('dotenv').config().parsed,
+      vueRouterMode: 'history', // available values: 'hash', 'history'
 
       // transpile: false,
 
@@ -78,11 +79,8 @@ module.exports = configure(function (ctx) {
       proxy: {
         // proxy all requests starting with /api to jsonplaceholder
         '/api': {
-          target: 'http://0.0.0.0:8000',
+          target: `http://${process.env.API_HOST || '0.0.0.0'}:${process.env.API_PORT || '8000'}`,
           changeOrigin: true,
-          // pathRewrite: {
-          //   '^/api': ''
-          // }
           headers: {
             'Authorization': 'Bearer api_token',
           },
