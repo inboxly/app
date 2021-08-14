@@ -2,7 +2,7 @@
   <q-dialog
     ref="dialog"
     :value='value' @input="newValue => $emit('input', newValue)"
-    transition-show="slide-up" transition-hide="slide-down" maximized auto-close
+    transition-show="slide-up" transition-hide="slide-down" maximized
   >
     <div class="bg-dark">
 
@@ -12,7 +12,7 @@
           Save to collection
         </q-toolbar-title>
         <div class="col text-right">
-          <q-btn dense>Done</q-btn>
+          <q-btn dense v-close-popup>Done</q-btn>
         </div>
       </q-toolbar>
 
