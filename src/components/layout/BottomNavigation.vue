@@ -5,7 +5,7 @@
       icon="subject"
       @click="$emit('toggleLeftDrawer')"
       :class="{ 'text-primary': ![
-            'index',
+            'all-entries',
             'saved-entries',
             'search-entries',
             'search-feeds'
