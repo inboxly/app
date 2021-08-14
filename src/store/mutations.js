@@ -14,6 +14,16 @@ export function setEntries (state, entries) {
   state.entries = entries
 }
 
+export function removeEntries (state, entries) {
+  state.entries = state.entries.filter(
+    entry => entries.some(entryToRemove => entryToRemove.id !== entry.id)
+  )
+}
+
+export function unshiftEntries (state, entries) {
+  state.entries.unshift(...entries)
+}
+
 export function addEntries (state, entries) {
   state.entries.push(...entries)
 }
