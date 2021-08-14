@@ -76,3 +76,19 @@ export function markEntryAsUnread (context, entryId) {
       // todo revert entry mark and feeds counts
     })
 }
+
+export function saveEntryToCollection (context, { collectionId, entryId }) {
+  return api.post(`/api/collections/${collectionId}/entries`, { ids: [entryId] }).then(() => {
+    context.commit('saveEntryToCollection', { collectionId, entryId })
+  }).catch(() => {
+    console.log('Fail on save entries to collection.', collectionId, entryId)
+  })
+}
+
+export function removeEntryFromCollection (context, { collectionId, entryId }) {
+  return api.delete(`/api/collections/${collectionId}/entries`, {data: { ids: [entryId] }}).then(() => {
+    context.commit('removeEntryFromCollection', { collectionId, entryId })
+  }).catch(() => {
+    console.log('Fail on remove entries from collection.', collectionId, entryId)
+  })
+}

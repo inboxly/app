@@ -55,3 +55,29 @@ export function removeFromEntriesToMarkRead(state, ids) {
     id => !ids.includes(id)
   )
 }
+
+export function saveEntryToCollection (state, { collectionId, entryId }) {
+  const collection = state.collections.find(
+    collection => collection.id === collectionId,
+  )
+
+  const entry = state.entries.find(entry => entry.id === entryId)
+
+  if (!collection || !entry) {
+    return
+  }
+
+  entry.collections.push(collection)
+}
+
+export function removeEntryFromCollection (state, { collectionId, entryId }) {
+  const entry = state.entries.find(entry => entry.id === entryId)
+
+  if (!entry) {
+    return
+  }
+
+  entry.collections = entry.collections.filter(
+    entryCollection => entryCollection.id !== collectionId
+  )
+}
