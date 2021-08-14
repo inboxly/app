@@ -18,8 +18,10 @@
   </q-slide-transition>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'Toolbar',
   props: {
     title: {
@@ -27,8 +29,5 @@ export default {
       default: '',
     },
   },
-  setup () {
-    return {}
-  }
-}
+})
 </script>

@@ -5,95 +5,106 @@
     @refresh="reloadEntries"
     @load="loadMoreEntries"
   >
-      <template
-        v-for="(entry, index) in entries"
-        :key="entry.id"
-      >
-        <date-label
-          :date="entry.created_at"
-          :prev-date="entries[index -1]?.created_at"
-        />
-        <entry
-          :style="entry.is_read ? 'opacity: 0.6' : ''"
-          :entry="entry"
-          :data-id="entry.id"
-          v-intersection="handleIntersection"
-          @click="openEntry(entry)"
-          @contextmenu.prevent="openEntryMenu(entry)"
-        />
-      </template>
+    <template
+      v-for="(entry, index) in entries"
+      :key="entry.id"
+    >
+      <date-label
+        :date="entry.created_at"
+        :prev-date="entries[index -1]?.created_at"
+      />
+      <entry
+        :style="entry.is_read ? 'opacity: 0.6' : ''"
+        :entry="entry"
+        :data-id="entry.id"
+        v-intersection="handleIntersection"
+        @click="openEntry(entry)"
+        @contextmenu.prevent="openEntryMenu(entry)"
+      />
+    </template>
   </scrollable>
 </template>
 
-<script>
-import DateLabel from 'components/common/DateLabel'
-import Entry from 'components/common/Entry'
-import EntryMenuOverlay from 'components/overlays/EntryMenuOverlay'
-import EntryOverlay from 'components/overlays/EntryOverlay'
-import Scrollable from 'components/common/Scrollable'
+<script lang="ts">
+import {computed, ComputedRef, defineComponent, ref} from "vue";
+import {useStore} from "vuex";
+import {useQuasar} from "quasar";
+import DateLabel from 'components/common/DateLabel.vue'
+import Entry from 'components/common/Entry.vue'
+import EntryMenuOverlay from 'components/overlays/EntryMenuOverlay.vue'
+import EntryOverlay from 'components/overlays/EntryOverlay.vue'
+import Scrollable from 'components/common/Scrollable.vue'
+import EntryType from 'src/types/EntryType'
 
-export default {
+export default defineComponent({
   name: 'EntryList',
-  components: { DateLabel, Entry, EntryMenuOverlay, EntryOverlay, Scrollable },
-  data () {
-    return {
-      nextUrl: null,
-    }
-  },
+  components: {DateLabel, Entry, EntryMenuOverlay, EntryOverlay, Scrollable},
   props: {
     url: {
       type: String,
-      default: null,
+      required: true,
+    },
+    noMarkRead: {
+      type: Boolean,
+      default: false
     },
   },
-  created () {
-    this.$store.dispatch('fetchEntries', this.url).then(nextUrl => {
-      this.nextUrl = nextUrl
-    })
-  },
-  computed: {
-    entries () {
-      return this.$store.state.entries
-    },
-  },
-  methods: {
-    handleIntersection (intersection) {
-      const isAboveViewport = intersection.boundingClientRect.bottom < 0
+  setup(props, {emit}) {
+    const quasar = useQuasar()
+    const store = useStore()
 
-      if (isAboveViewport) {
-        const entryId = parseInt(intersection.target.dataset.id)
-        this.$store.dispatch('markEntryAsRead', entryId)
+    store.dispatch('fetchEntries', props.url).then(
+      (next: string) => nextUrl.value = next
+    )
+
+    const nextUrl = ref('')
+    const entries: ComputedRef<EntryType[]> = computed(() => store.state.entries);
+
+    function handleIntersection(intersection: any): void | false {
+      if (props.noMarkRead) {
         return false
       }
-    },
-    loadMoreEntries (index, done) {
-      if (this.nextUrl) {
-        this.$store.dispatch('fetchMoreEntries', this.nextUrl).then(nextUrl => {
-          this.nextUrl = nextUrl
+      const isAboveViewport = intersection.boundingClientRect.bottom < 0;
+      if (isAboveViewport) {
+        const entryId = parseInt(intersection.target.dataset.id)
+        store.dispatch('markEntryAsRead', entryId)
+        return false
+      }
+    }
+
+    function loadMoreEntries(index: Number, done: Function): void {
+      if (nextUrl.value) {
+        store.dispatch('fetchMoreEntries', nextUrl.value).then(next => {
+          nextUrl.value = next
           done()
         })
       }
-    },
-    reloadEntries (done) {
-      this.$store.dispatch('fetchFeedsCounts')
-      this.$store.dispatch('fetchEntries', this.url).then(nextUrl => {
-        this.nextUrl = nextUrl
+    }
+
+    function reloadEntries(done: Function): void {
+      store.dispatch('fetchFeedsCounts')
+      store.dispatch('fetchEntries', props.url).then(next => {
+        nextUrl.value = next
         done()
       })
-      this.$emit('refresh')
-    },
-    openEntry(entry) {
-      this.$q.dialog({
+      emit('refresh')
+    }
+
+    function openEntry(entry: EntryType): void {
+      quasar.dialog({
         component: EntryOverlay,
-        componentProps: { entry }
+        componentProps: {entry}
       })
-    },
-    openEntryMenu(entry) {
-      this.$q.dialog({
+    }
+
+    function openEntryMenu(entry: EntryType): void {
+      quasar.dialog({
         component: EntryMenuOverlay,
-        componentProps: { entry }
+        componentProps: {entry, noMarkRead: props.noMarkRead}
       })
-    },
+    }
+
+    return {nextUrl, entries, handleIntersection, loadMoreEntries, reloadEntries, openEntry, openEntryMenu}
   },
-}
+});
 </script>

@@ -8,25 +8,25 @@
         <toolbar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
     </toolbar>
-    <entry-list url="/api/entries?readOnly=1"/>
+    <entry-list no-mark-read url="/api/entries?readOnly=1"/>
     <entry-list-menu-overlay v-model="showEntryListMenu"/>
   </q-page>
 </template>
 
-<script>
-import EntryList from 'components/common/EntryList'
-import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
-import Toolbar from 'components/layout/Toolbar'
-import ToolbarButton from 'components/layout/ToolbarButton'
-import ToolbarProgress from 'components/layout/ToolbarProgress'
+<script lang="ts">
+import {defineComponent, ref} from "vue";
+import EntryList from 'components/common/EntryList.vue'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay.vue'
+import Toolbar from 'components/layout/Toolbar.vue'
+import ToolbarButton from 'components/layout/ToolbarButton.vue'
+import ToolbarProgress from 'components/layout/ToolbarProgress.vue'
 
-export default {
+export default defineComponent({
   name: 'ReadEntriesPage',
-  components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
-  data () {
-    return {
-      showEntryListMenu: false,
-    }
-  }
-}
+  components: {EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress},
+  setup() {
+    const showEntryListMenu = ref(false)
+    return {showEntryListMenu}
+  },
+});
 </script>

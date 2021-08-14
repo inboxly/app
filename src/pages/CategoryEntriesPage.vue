@@ -14,45 +14,44 @@
   </q-page>
 </template>
 
-<script>
-import EntryList from 'components/common/EntryList'
-import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
-import Toolbar from 'components/layout/Toolbar'
-import ToolbarButton from 'components/layout/ToolbarButton'
-import ToolbarProgress from 'components/layout/ToolbarProgress'
+<script lang="ts">
+import {useStore} from "vuex";
+import {computed, onBeforeMount, ref} from "vue";
+import {useRoute} from "vue-router";
+import {api} from "boot/axios";
+import CategoryType from "src/types/CategoryType";
+import EntryList from 'components/common/EntryList.vue'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay.vue'
+import Toolbar from 'components/layout/Toolbar.vue'
+import ToolbarButton from 'components/layout/ToolbarButton.vue'
+import ToolbarProgress from 'components/layout/ToolbarProgress.vue'
+
 export default {
   name: 'CategoryEntriesPage',
-  components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
-  data () {
-    return {
-      showEntryListMenu: false,
-      progressMax: 0,
-    }
-  },
-  beforeMount () {
-    this.$store.dispatch('fetchFeedsCounts').then(
-      () => this.progressMax = this.progressValue
-    )
-  },
-  methods: {
-    markAllAsRead () {
-      this.$api.post(`/api/read/categories/${this.$route.params.categoryId}`).then(() => {
-        this.$store.commit('setEntries', [])
+  components: {EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress},
+  setup() {
+    const route = useRoute()
+    const store = useStore()
+
+    const showEntryListMenu = ref(false)
+    const progressMax = ref(0)
+    const progressValue = computed(() => store.getters.getCategoryEntriesCount(+route.params.categoryId))
+    const url = computed(() => `/api/categories/${route.params.categoryId}/entries?unreadOnly=1`)
+    const category = computed(() => {
+      return store.state.categories.find((category: CategoryType) => category.id === +route.params.categoryId) || {}
+    })
+
+    onBeforeMount(() => {
+      store.dispatch('fetchFeedsCounts').then(() => progressMax.value = progressValue.value)
+    })
+
+    function markAllAsRead() {
+      api.post(`/api/read/categories/${route.params.categoryId}`).then(() => {
+        store.commit('setEntries', [])
       })
-    },
-  },
-  computed: {
-    url () {
-      const categoryId = this.$route.params.categoryId
-      return `/api/categories/${categoryId}/entries?unreadOnly=1`
-    },
-    progressValue () {
-      return this.$store.getters.getCategoryEntriesCount(parseInt(this.$route.params.categoryId))
-    },
-    category() {
-      const category = this.$store.state.categories.find(category => category.id === parseInt(this.$route.params.categoryId))
-      return category || {}
-    },
+    }
+
+    return {showEntryListMenu, progressMax, progressValue, url, category, markAllAsRead}
   },
 }
 </script>

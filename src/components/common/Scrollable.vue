@@ -19,25 +19,36 @@
   </q-pull-to-refresh>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {defineComponent} from "vue";
+
+export default defineComponent({
   name: 'Scrollable',
-  emits: ['refresh', 'load'],
-  props: ['disable', 'minHeight'],
-  methods: {
-    load (index, done) {
-      this.$emit('load', index, done)
+  props: {
+    disable: {
+      type: Boolean,
     },
-    refresh (done) {
-      this.$emit('refresh', done)
+    minHeight: {
+      type: String,
     },
   },
-}
+  setup(props, {emit}) {
+    function load(index: Number, done: Function) {
+      emit('load', index, done)
+    }
+
+    function refresh(done: Function) {
+      emit('refresh', done)
+    }
+
+    return {load, refresh}
+  },
+});
 </script>
 
 <style>
 .q-pull-to-refresh,
-.q-pull-to-refresh__content{
+.q-pull-to-refresh__content {
   min-height: inherit !important;
 }
 </style>

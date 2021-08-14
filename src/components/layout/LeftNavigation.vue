@@ -190,7 +190,7 @@
           clickable
           v-ripple
           :active="link === 'settings'"
-          @click="link = 'settings'"
+          @click="openSettings"
           active-class="my-menu-link"
         >
           <q-item-section avatar style="min-width: auto">
@@ -218,37 +218,55 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { computed, defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import FeedType from "src/types/FeedType";
+import {useQuasar} from "quasar";
+import SettingsOverlay from "components/overlays/SettingsOverlay.vue";
+
+export default defineComponent({
   name: 'LeftNavigation',
-  data () {
-    return {
-      link: '',
+  emits: ['toggleLeftDrawer'],
+  setup (_, {emit}) {
+    const quasar = useQuasar()
+    const router = useRouter()
+    const store = useStore()
+
+    const link = ref('')
+    const collections = computed(() => store.state.collections)
+
+    interface CategoryOrFeedType {
+      id: number,
+      feeds: FeedType[]|undefined
     }
+
+    const categories = computed(() => store.state.categories)
+
+    function goToCategoryOrFeed (categoryOrFeed: CategoryOrFeedType) {
+      categoryOrFeed.feeds
+        ? router.push({ name: 'category-entries', params: { categoryId: categoryOrFeed.id } })
+        : router.push({ name: 'feed-entries', params: { feedId: categoryOrFeed.id } })
+    }
+
+    function categoryOrFeedCount (categoryOrFeed: CategoryOrFeedType) {
+      return categoryOrFeed.feeds
+        ? store.getters.getCategoryEntriesCount(categoryOrFeed.id)
+        : store.getters.getFeedEntriesCount(categoryOrFeed.id)
+    }
+
+    function openSettings(): void {
+      link.value = 'settings';
+      quasar.dialog({component: SettingsOverlay})
+      toggleLeftDrawer()
+    }
+
+    function toggleLeftDrawer () {
+      emit('toggleLeftDrawer')
+    }
+
+    return {router, link, collections, categories, goToCategoryOrFeed, categoryOrFeedCount, openSettings, toggleLeftDrawer}
   },
-  methods: {
-    goToCategoryOrFeed (categoryOrFeed) {
-      categoryOrFeed.children
-        ? this.$router.push({ name: 'category-entries', params: { categoryId: categoryOrFeed.id } })
-        : this.$router.push({ name: 'feed-entries', params: { feedId: categoryOrFeed.id } })
-    },
-    categoryOrFeedCount (categoryOrFeed) {
-      return categoryOrFeed.children
-        ? this.$store.getters.getCategoryEntriesCount(categoryOrFeed.id)
-        : this.$store.getters.getFeedEntriesCount(categoryOrFeed.id)
-    },
-  },
-  computed: {
-    collections () {
-      return this.$store.state.collections
-    },
-    categories () {
-      return this.$store.state.categories.map(category => {
-        let cat = { ...category }
-        cat.children = cat.feeds
-        return cat
-      })
-    },
-  },
-}
+})
 </script>

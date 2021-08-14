@@ -13,25 +13,26 @@
   </q-page>
 </template>
 
-<script>
-import EntryList from 'components/common/EntryList'
-import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
-import Toolbar from 'components/layout/Toolbar'
-import ToolbarButton from 'components/layout/ToolbarButton'
-import ToolbarProgress from 'components/layout/ToolbarProgress'
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+import { api } from 'boot/axios'
+import EntryList from 'components/common/EntryList.vue'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay.vue'
+import Toolbar from 'components/layout/Toolbar.vue'
+import ToolbarButton from 'components/layout/ToolbarButton.vue'
+import ToolbarProgress from 'components/layout/ToolbarProgress.vue'
 
-export default {
+export default defineComponent({
   name: 'SavedEntriesPage',
   components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
-  data () {
-    return {
-      showEntryListMenu: false,
+  setup () {
+    const showEntryListMenu = ref(false)
+
+    function markAllAsRead() {
+      api.post('/api/read/saved')
     }
+
+    return {showEntryListMenu, markAllAsRead}
   },
-  methods: {
-    markAllAsRead () {
-      this.$api.post('/api/read/saved')
-    },
-  },
-}
+})
 </script>

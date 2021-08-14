@@ -1,6 +1,6 @@
 <template>
   <q-dialog
-    :value='value' @input="newValue => $emit('input', newValue)"
+    ref="dialogRef" @hide="onDialogHide"
     transition-show="slide-up" transition-hide="slide-down" maximized auto-close
   >
     <div class="bg-dark ">
@@ -42,41 +42,45 @@
   </q-dialog>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {defineComponent, ref, reactive, watch} from 'vue'
+import {useDialogPluginComponent} from "quasar";
+
+export default defineComponent({
   name: 'EntryListMenuOverlay',
   props: ['value'],
-  data () {
-    return {
-      view: 'cards',
-      density: 'comfortable',
-      sort: 'latest',
-      viewOptions: [
-        {label: 'Text-Only', value: 'text'},
-        {label: 'Magazine', value: 'magazine'},
-        {label: 'Cards', value: 'cards'},
-      ],
-      densityOptions: [
-        {label: 'Compact', value: 'compact'},
-        {label: 'Comfortable', value: 'comfortable'},
-      ],
-      sortOptions: [
-        {label: 'Most Popular', value: 'popular'},
-        {label: 'Popular + Latest', value: 'popular-latest'},
-        {label: 'Latest', value: 'latest'},
-      ],
-    }
-  },
-  watch: {
-    view (newValue) {
+  emits: [...useDialogPluginComponent.emits],
+  setup() {
+    const {dialogRef, onDialogHide} = useDialogPluginComponent();
+    const view = ref('cards');
+    const density = ref('comfortable');
+    const sort = ref('latest');
+    const viewOptions = reactive([
+      { label: 'Text-Only', value: 'text' },
+      { label: 'Magazine', value: 'magazine' },
+      { label: 'Cards', value: 'cards' },
+    ])
+    const densityOptions = reactive([
+      {label: 'Compact', value: 'compact'},
+      {label: 'Comfortable', value: 'comfortable'},
+    ]);
+    const sortOptions = reactive([
+      {label: 'Most Popular', value: 'popular'},
+      {label: 'Popular + Latest', value: 'popular-latest'},
+      {label: 'Latest', value: 'latest'},
+    ]);
+
+    watch(view, (newValue) => {
       console.log(`Changed view option to: ${newValue}`)
-    },
-    density (newValue) {
+    })
+    watch(density, (newValue) => {
       console.log(`Changed density option to: ${newValue}`)
-    },
-    sort (newValue) {
+    })
+    watch(sort, (newValue) => {
       console.log(`Changed sort option to: ${newValue}`)
-    },
+    })
+
+    return {dialogRef, onDialogHide, view, density, sort, viewOptions, densityOptions, sortOptions}
   },
-}
+})
 </script>

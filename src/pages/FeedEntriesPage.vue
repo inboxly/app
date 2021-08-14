@@ -14,46 +14,44 @@
   </q-page>
 </template>
 
-<script>
-import EntryList from 'components/common/EntryList'
-import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
-import Toolbar from 'components/layout/Toolbar'
-import ToolbarButton from 'components/layout/ToolbarButton'
-import ToolbarProgress from 'components/layout/ToolbarProgress'
+<script lang="ts">
+import {computed, defineComponent, onBeforeMount, ref} from "vue";
+import {useRoute} from "vue-router";
+import {useStore} from "vuex";
+import {api} from "boot/axios";
+import EntryList from 'components/common/EntryList.vue'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay.vue'
+import Toolbar from 'components/layout/Toolbar.vue'
+import ToolbarButton from 'components/layout/ToolbarButton.vue'
+import ToolbarProgress from 'components/layout/ToolbarProgress.vue'
 
-export default {
+export default defineComponent({
   name: 'FeedEntriesPage',
-  components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
-  data () {
-    return {
-      feed: {},
-      showEntryListMenu: false,
-      progressMax: 0,
-    }
-  },
-  beforeMount () {
-    this.$api.get(`/api/feeds/${this.$route.params.feedId}`).then(
-      response => this.feed = response.data.data
-    )
-    this.$store.dispatch('fetchFeedsCounts').then(
-      () => this.progressMax = this.progressValue,
-    )
-  },
-  methods: {
-    markAllAsRead () {
-      this.$api.post(`/api/read/feeds/${this.$route.params.feedId}`).then(() => {
-        this.$store.commit('setEntries', [])
+  components: {EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress},
+  setup() {
+    const route = useRoute()
+    const store = useStore()
+
+    const feed = ref({})
+    const showEntryListMenu = ref(false)
+    const progressMax = ref(0)
+    const progressValue = computed(() => store.getters.getFeedEntriesCount(+route.params.feedId))
+    const url = computed(() => `/api/feeds/${route.params.feedId}/entries?unreadOnly=1`)
+
+    onBeforeMount(() => {
+      api.get(`/api/feeds/${route.params.feedId}`).then(
+        response => feed.value = response.data.data
+      )
+      store.dispatch('fetchFeedsCounts').then(() => progressMax.value = progressValue.value)
+    })
+
+    function markAllAsRead() {
+      api.post(`/api/read/feeds/${route.params.feedId}`).then(() => {
+        store.commit('setEntries', [])
       })
-    },
+    }
+
+    return {showEntryListMenu, progressMax, progressValue, url, feed, markAllAsRead}
   },
-  computed: {
-    url () {
-      const feedId = this.$route.params.feedId
-      return `/api/feeds/${feedId}/entries?unreadOnly=1`
-    },
-    progressValue () {
-      return this.$store.getters.getFeedEntriesCount(parseInt(this.$route.params.feedId))
-    },
-  },
-}
+});
 </script>

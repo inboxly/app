@@ -1,8 +1,7 @@
 <template>
   <q-dialog
-    ref="dialog"
-    position="bottom"
-    auto-close
+    ref="dialogRef" @hide="onDialogHide"
+    position="bottom" auto-close
   >
     <div class="bg-dark">
       <q-list padding>
@@ -30,36 +29,45 @@
   </q-dialog>
 </template>
 
-<script>
-import SaveToCollectionOverlay from 'components/overlays/SaveToCollectionOverlay'
+<script lang="ts">
+import SaveToCollectionOverlay from 'components/overlays/SaveToCollectionOverlay.vue'
+import {defineComponent, PropType} from 'vue'
+import {useDialogPluginComponent, useQuasar} from "quasar";
+import {useStore} from "vuex";
+import EntryType from "src/types/EntryType";
 
-export default {
+export default defineComponent({
   name: 'EntryMenuOverlay',
-  props: ['entry'],
-  setup () {
-    return {}
+  props: {
+    entry: {
+      type: Object as PropType<EntryType>,
+      required: true,
+    },
   },
-  methods: {
-    show () {
-      this.$refs.dialog.show()
-    },
-    hide () {
-      this.$refs.dialog.hide()
-    },
-    markAsRead() {
+  emits: [...useDialogPluginComponent.emits],
+  setup(props) {
+    const {dialogRef, onDialogHide} = useDialogPluginComponent()
+    const store = useStore()
+    const quasar = useQuasar()
+
+    function markAsRead() {
       console.log('mark read')
-      this.$store.dispatch('markEntryAsRead', this.entry.id)
-    },
-    markAsUnread() {
+      store.dispatch('markEntryAsRead', props.entry.id)
+    }
+
+    function markAsUnread() {
       console.log('mark unread')
-      this.$store.dispatch('markEntryAsUnread', this.entry.id)
-    },
-    showSaveToCollectionOverlay() {
-      this.$q.dialog({
+      store.dispatch('markEntryAsUnread', props.entry.id)
+    }
+
+    function showSaveToCollectionOverlay() {
+      quasar.dialog({
         component: SaveToCollectionOverlay,
-        componentProps: { entry: this.entry }
+        componentProps: {entry: props.entry},
       })
-    },
+    }
+
+    return {dialogRef, onDialogHide, markAsRead, markAsUnread, showSaveToCollectionOverlay}
   },
-}
+})
 </script>

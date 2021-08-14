@@ -11,8 +11,10 @@
   />
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'ToolbarProgress',
   props: {
     max: {
@@ -24,5 +26,5 @@ export default {
       default: 0,
     },
   },
-}
+})
 </script>

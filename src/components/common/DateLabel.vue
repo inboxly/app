@@ -6,13 +6,24 @@
   />
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {computed, defineComponent} from 'vue'
+
+export default defineComponent({
   name: 'DateLabel',
-  props: ['date', 'prevDate'],
-  computed: {
-    label () {
-      return date => {
+  props: {
+    date: {
+      type: String,
+      required: true,
+    },
+    prevDate: {
+      type: String,
+      required: false,
+    },
+  },
+  setup() {
+    const label = computed(() => {
+      return (date: string) => {
         const dateLabel = (new Date(date)).toLocaleDateString('en-CA')
         const today = new Date()
         const yesterday = new Date()
@@ -27,7 +38,9 @@ export default {
             return dateLabel
         }
       }
-    },
+    })
+
+    return {label}
   },
-}
+})
 </script>

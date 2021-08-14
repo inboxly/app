@@ -14,27 +14,30 @@
   </q-page>
 </template>
 
-<script>
-import EntryList from 'components/common/EntryList'
-import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
-import Toolbar from 'components/layout/Toolbar'
-import ToolbarButton from 'components/layout/ToolbarButton'
-import ToolbarProgress from 'components/layout/ToolbarProgress'
+<script lang="ts">
+import {defineComponent, ref} from 'vue'
+import {useRouter} from "vue-router";
+import {api} from "boot/axios";
+import EntryList from 'components/common/EntryList.vue'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay.vue'
+import Toolbar from 'components/layout/Toolbar.vue'
+import ToolbarButton from 'components/layout/ToolbarButton.vue'
+import ToolbarProgress from 'components/layout/ToolbarProgress.vue'
 
-export default {
+export default defineComponent({
   name: 'TodayEntriesPage',
-  components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
-  data () {
-    return {
-      showEntryListMenu: false,
-    }
-  },
-  methods: {
-    markAllAsRead () {
-      this.$api.post(`/api/read/all?todayOnly=1`).then(() => {
-        this.$router.push({name: 'all-entries'})
+  components: {EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress},
+  setup() {
+    const router = useRouter()
+    const showEntryListMenu = ref(false)
+
+    function markAllAsRead() {
+      api.post(`/api/read/all?todayOnly=1`).then(() => {
+        router.push({name: 'all-entries'})
       })
-    },
+    }
+
+    return {showEntryListMenu, markAllAsRead}
   },
-}
+})
 </script>

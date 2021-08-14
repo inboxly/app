@@ -10,23 +10,22 @@
   </q-page>
 </template>
 
-<script>
-import SearchInput from 'components/common/SearchInput'
-import Toolbar from 'components/layout/Toolbar'
+<script lang="ts">
+import {defineComponent, ref} from "vue";
+import SearchInput from 'components/common/SearchInput.vue'
+import Toolbar from 'components/layout/Toolbar.vue'
 
-export default {
+export default defineComponent({
   name: 'SearchEntriesPage',
-  components: { SearchInput, Toolbar },
-  data () {
-    return {
-      focused: false,
-      query: '',
-    }
-  },
-  methods: {
-    search (query) {
+  components: {SearchInput, Toolbar},
+  setup() {
+    const focused = ref(false)
+
+    function search(query) {
       console.log('Search: ' + query)
-    },
+    }
+
+    return {focused, search}
   },
-}
+});
 </script>

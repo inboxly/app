@@ -1,7 +1,6 @@
 <template>
   <q-dialog
-    ref="dialog"
-    :value='value' @input="newValue => $emit('input', newValue)"
+    ref="dialogRef" @hide="onDialogHide"
     transition-show="slide-up" transition-hide="slide-down" maximized
   >
     <div class="bg-dark">
@@ -48,50 +47,63 @@
   </q-dialog>
 </template>
 
-<script>
-export default {
-  name: 'SaveToCollectionOverlay',
-  props: ['value', 'entry'],
-  emits: ['input'],
-  methods: {
-    show () {
-      this.$refs.dialog.show()
-    },
-    hide () {
-      this.$refs.dialog.hide()
-    },
-    saveToReadLater() {
-      console.log(`Save entry #${this.entry.id} to read later`)
-    },
-    toggleSavingToCollection(collection) {
-      const payload = { collectionId: collection.id, entryId: this.entry.id }
-      const isSelectedCollection = this.$route.name === 'collection-entries'
-        && +this.$route.params.collectionId === collection.id
+<script lang="ts">
+import {useDialogPluginComponent} from "quasar";
+import {computed, defineComponent, PropType} from 'vue'
+import {useStore} from "vuex";
+import {useRoute} from "vue-router";
+import CollectionType from "src/types/CollectionType";
+import EntryType from "src/types/EntryType";
 
-      if (this.savedToCollection(collection)) {
+export default defineComponent({
+  name: 'SaveToCollectionOverlay',
+  props: {
+    value: {
+      type: Boolean
+    },
+    entry: {
+      type: Object as PropType<EntryType>,
+      required: true
+    }
+  },
+  emits: [...useDialogPluginComponent.emits],
+  setup(props) {
+    const {dialogRef, onDialogHide} = useDialogPluginComponent();
+    const store = useStore()
+    const route = useRoute()
+
+    const collections = computed(() => store.state.collections);
+
+    function savedToCollection(collection: CollectionType) {
+      return props.entry.collections.some(
+        entryCollection => entryCollection.id === collection.id,
+      )
+    }
+
+    function saveToReadLater() {
+      console.log(`Save entry #${props.entry.id} to read later`)
+    }
+
+    function toggleSavingToCollection(collection: CollectionType) {
+      const payload = {collectionId: collection.id, entryId: props.entry.id}
+      const isSelectedCollection = route.name === 'collection-entries'
+        && +route.params.collectionId === collection.id
+
+      if (savedToCollection(collection)) {
         // todo: Bug! Removing from collection not synced with UI
-        this.$store.dispatch('removeEntryFromCollection', payload)
+        store.dispatch('removeEntryFromCollection', payload)
         if (isSelectedCollection) {
-          this.$store.commit('removeEntries', [this.entry])
+          store.commit('removeEntries', [props.entry])
         }
       } else {
-        this.$store.dispatch('saveEntryToCollection', payload)
+        store.dispatch('saveEntryToCollection', payload)
         if (isSelectedCollection) {
-          this.$store.commit('unshiftEntries', [this.entry])
+          store.commit('unshiftEntries', [props.entry])
         }
       }
-    },
+    }
+
+    return {dialogRef, onDialogHide, collections, savedToCollection, saveToReadLater, toggleSavingToCollection}
   },
-  computed: {
-    collections () {
-      return this.$store.state.collections
-    },
-    savedToCollection() {
-      console.log(this.entry)
-      return collection => this.entry.collections.some(
-        entryCollection => entryCollection.id === collection.id
-      )
-    },
-  },
-}
+})
 </script>

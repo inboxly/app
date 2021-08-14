@@ -14,26 +14,25 @@
   </q-page>
 </template>
 
-<script>
-import SearchInput from 'components/common/SearchInput'
-import Toolbar from 'components/layout/Toolbar'
-import ToolbarButton from 'components/layout/ToolbarButton'
+<script lang="ts">
+import {defineComponent, ref} from "vue";
+import {api} from "boot/axios";
+import SearchInput from 'components/common/SearchInput.vue'
+import Toolbar from 'components/layout/Toolbar.vue'
+import ToolbarButton from 'components/layout/ToolbarButton.vue'
 
-export default {
+export default defineComponent({
   name: 'SearchFeedsPage',
-  data () {
-    return {
-      focused: false,
-      icon: 'search',
-    }
-  },
-  components: { SearchInput, Toolbar, ToolbarButton },
-  methods: {
-    explore (query) {
+  components: {SearchInput, Toolbar, ToolbarButton},
+  setup() {
+    const focused = ref(false)
+
+    function explore(query) {
       console.log('Sent a query to explore: ' + query)
-      this.$api.post('/api/explore', { query }).
-        then(response => console.log(response.data))
-    },
+      api.post('/api/explore', {query}).then(response => console.log(response.data))
+    }
+
+    return {focused, explore}
   },
-}
+});
 </script>

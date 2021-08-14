@@ -14,39 +14,38 @@
   </q-page>
 </template>
 
-<script>
-import EntryList from 'components/common/EntryList'
-import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
-import Toolbar from 'components/layout/Toolbar'
-import ToolbarButton from 'components/layout/ToolbarButton'
-import ToolbarProgress from 'components/layout/ToolbarProgress'
+<script lang="ts">
+import {computed, defineComponent, ref} from "vue";
+import {useRoute} from "vue-router";
+import {useStore} from "vuex";
+import {api} from "boot/axios";
+import CollectionType from "src/types/CollectionType";
+import EntryList from 'components/common/EntryList.vue'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay.vue'
+import Toolbar from 'components/layout/Toolbar.vue'
+import ToolbarButton from 'components/layout/ToolbarButton.vue'
+import ToolbarProgress from 'components/layout/ToolbarProgress.vue'
 
-export default {
+export default defineComponent({
   name: 'CollectionEntriesPage',
-  components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
-  data () {
-    return {
-      showEntryListMenu: false,
-    }
-  },
-  methods: {
-    markAllAsRead () {
-      this.$api.post(`/api/read/collections/${this.$route.params.collectionId}`).then(() => {
-        this.$store.commit('setEntries', [])
-      })
-    },
-  },
-  computed: {
-    url () {
-      const collectionId = this.$route.params.collectionId
-      return `/api/collections/${collectionId}/entries?unreadOnly=1`
-    },
-    collection() {
-      const collection = this.$store.state.collections.find(
-        collection => collection.id === parseInt(this.$route.params.collectionId)
+  components: {EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress},
+  setup() {
+    const route = useRoute()
+    const store = useStore()
+    const showEntryListMenu = ref(false)
+    const url = computed(() => `/api/collections/${route.params.collectionId}/entries?unreadOnly=1`)
+    const collection = computed(() => {
+      const foundCollection = store.state.collections.find(
+        (collection: CollectionType) => collection.id === +route.params.collectionId
       )
-      return collection || {}
-    },
+      return foundCollection || {}
+    })
+
+    function markAllAsRead() {
+      api.post(`/api/read/collections/${route.params.collectionId}`)
+    }
+
+    return {showEntryListMenu, url, collection, markAllAsRead}
   },
-}
+});
 </script>

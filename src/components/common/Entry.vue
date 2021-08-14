@@ -21,32 +21,38 @@
   </q-card>
 </template>
 
-<script>
+<script lang="ts">
+import {defineComponent, PropType, computed} from 'vue'
 import { format } from 'timeago.js'
+import EntryType from "src/types/EntryType";
 
-export default {
+export default defineComponent({
   name: 'Entry',
   props: {
     entry: {
-      type: Object,
-      default: () => {},
+      type: Object as PropType<EntryType>,
+      required: true
     },
   },
-  computed: {
-    feedTitle () {
-      const title = this.entry.feed.custom_title ?? this.entry.feed.title
-      const author = (this.entry.author && this.entry.author.name) || ''
+  setup(props) {
+    const feedTitle = computed(() => {
+      const title = props.entry.feed.custom_title ?? props.entry.feed.title
+      const author = (props.entry.author && props.entry.author.name) || ''
       return title === author ? title : title + ' by ' + author
-    },
-    createdDate () {
-      const date = new Date(this.entry.created_at)
+    })
+
+    const createdDate = computed(() => {
+      const date = new Date(props.entry.created_at)
       return date.toLocaleString('en-CA')
-    },
-    createdDuration () {
-      return format(new Date(this.entry.created_at))
-    },
+    })
+
+    const createdDuration = computed(() => {
+      return format(new Date(props.entry.created_at))
+    })
+
+    return {feedTitle, createdDate, createdDuration}
   },
-}
+})
 </script>
 
 <style>

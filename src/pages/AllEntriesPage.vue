@@ -14,39 +14,36 @@
   </q-page>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-import EntryList from 'components/common/EntryList'
-import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay'
-import Toolbar from 'components/layout/Toolbar'
-import ToolbarButton from 'components/layout/ToolbarButton'
-import ToolbarProgress from 'components/layout/ToolbarProgress'
+<script lang="ts">
+import { computed, defineComponent, onBeforeMount, ref } from 'vue'
+import { useStore } from 'vuex'
+import { api } from 'src/boot/axios'
+import EntryList from 'components/common/EntryList.vue'
+import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay.vue'
+import Toolbar from 'components/layout/Toolbar.vue'
+import ToolbarButton from 'components/layout/ToolbarButton.vue'
+import ToolbarProgress from 'components/layout/ToolbarProgress.vue'
 
 export default defineComponent({
   name: 'AllEntriesPage',
   components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
-  data () {
-    return {
-      showEntryListMenu: false,
-      progressMax: 0,
-    }
-  },
-  beforeMount () {
-    this.$store.dispatch('fetchFeedsCounts').then(
-      () => this.progressMax = this.progressValue
-    )
-  },
-  methods: {
-    markAllAsRead () {
-      this.$api.post('/api/read/all').then(() => {
-        this.$store.commit('setEntries', [])
+  setup () {
+    const store = useStore()
+    const showEntryListMenu = ref(false)
+    const progressMax = ref(0)
+    const progressValue = computed(() => store.getters.getAllEntriesCount)
+
+    onBeforeMount(() => {
+      store.dispatch('fetchFeedsCounts').then(() => progressMax.value = progressValue.value)
+    })
+
+    function markAllAsRead () {
+      api.post('/api/read/all').then(() => {
+        store.commit('setEntries', [])
       })
-    },
-  },
-  computed: {
-    progressValue () {
-      return this.$store.getters.getAllEntriesCount
-    },
+    }
+
+    return { showEntryListMenu, progressMax, progressValue, markAllAsRead }
   },
 })
 </script>

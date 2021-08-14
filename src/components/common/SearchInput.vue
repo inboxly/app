@@ -18,8 +18,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {computed, ComputedRef, defineComponent, ref} from 'vue'
+
+export default defineComponent({
   name: 'SearchInput',
   props: {
     label: {
@@ -27,34 +29,32 @@ export default {
       default: '',
     },
   },
-  data () {
-    return {
-      query: '',
-      focused: false,
-    }
-  },
-  emits: ['search', 'blur', 'focus'],
-  methods: {
-    search () {
-      const trimmedQuery = (this.query || '').trim()
+  setup(props, {emit}) {
+    const query = ref('')
+    const focused = ref(false)
+    const icon: ComputedRef<String> = computed(
+      () => focused.value ? 'arrow_back' : 'search'
+    )
+
+    function search() {
+      const trimmedQuery = (query.value || '').trim()
       if (!trimmedQuery) {
         return
       }
-      this.$emit('search', this.query)
-    },
-    focus () {
-      this.focused = true;
-      this.$emit('focus')
-    },
-    blur () {
-      this.focused = false;
-      this.$emit('blur')
-    },
+      emit('search', query.value)
+    }
+
+    function focus() {
+      focused.value = true
+      emit('focus')
+    }
+
+    function blur() {
+      focused.value = false
+      emit('blur')
+    }
+
+    return {query, focused, icon, search, focus, blur}
   },
-  computed: {
-    icon () {
-      return this.focused ? 'arrow_back' : 'search'
-    },
-  },
-}
+})
 </script>

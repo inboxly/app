@@ -5,7 +5,7 @@
     </q-page-container>
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-      <left-navigation/>
+      <left-navigation @toggle-left-drawer="toggleLeftDrawer"/>
     </q-drawer>
 
     <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
@@ -18,28 +18,26 @@
   </q-layout>
 </template>
 
-<script>
-import { ref } from 'vue'
-import LeftNavigation from 'components/layout/LeftNavigation'
-import BottomNavigation from 'components/layout/BottomNavigation'
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+import LeftNavigation from 'components/layout/LeftNavigation.vue'
+import BottomNavigation from 'components/layout/BottomNavigation.vue'
 
-export default {
+export default defineComponent({
   components: { BottomNavigation, LeftNavigation },
   setup () {
     const leftDrawerOpen = ref(false)
     const rightDrawerOpen = ref(false)
 
-    return {
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      },
-
-      rightDrawerOpen,
-      toggleRightDrawer () {
-        rightDrawerOpen.value = !rightDrawerOpen.value
-      },
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
     }
+
+    function toggleRightDrawer () {
+      rightDrawerOpen.value = !rightDrawerOpen.value
+    }
+
+    return { leftDrawerOpen, rightDrawerOpen, toggleLeftDrawer, toggleRightDrawer }
   },
-}
+})
 </script>

@@ -4,8 +4,10 @@
   </q-btn>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'ToolbarButton',
   props: {
     icon: {
@@ -13,5 +15,5 @@ export default {
       default: '',
     },
   },
-}
+})
 </script>
