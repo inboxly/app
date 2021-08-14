@@ -5,8 +5,8 @@
     </div>
 
     <q-card-section class="q-py-none">
-      <div class="entry-title text-subtitle1 q-my-xs">{{ entry.title }}</div>
-      <div class="entry-subtitle text-subtitle2 q-my-xs text-grey row no-wrap">
+      <div class="entry-title q-my-xs">{{ entry.title }}</div>
+      <div class="entry-subtitle q-my-sm text-grey row no-wrap">
         <div class="ellipsis" v-text="feedTitle" :title="feedTitle"/>
         <div class="q-mx-xs col-auto">/</div>
         <div class="col-auto" :title="createdDate">{{ createdDuration }}</div>
@@ -51,7 +51,8 @@ export default {
 
 <style>
 .entry-title {
-  line-height: 1.4;
+  font-size: 1.1rem;
+  line-height: 1.3;
 }
 .entry-text {
   line-height: 1.4;
