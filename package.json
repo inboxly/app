@@ -12,20 +12,20 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.10.10",
     "axios": "^0.21.1",
-    "core-js": "^3.6.5",
-    "quasar": "^2.0.0",
+    "core-js": "^3.16.1",
+    "quasar": "^2.0.3",
     "timeago.js": "^4.0.2",
     "vuex": "^4.0.1"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.0",
+    "@quasar/app": "^3.0.4",
     "@vue/devtools": "^5.3.4",
     "dotenv": "^10.0.0",
-    "electron": "^13.1.4",
-    "electron-packager": "^15.2.0",
-    "workbox-webpack-plugin": "^6.1.5"
+    "electron": "^13.1.9",
+    "electron-packager": "^15.3.0",
+    "workbox-webpack-plugin": "^6.2.4"
   },
   "browserslist": [
     "last 10 Chrome versions",
