@@ -12,7 +12,7 @@
         </div>
       </q-toolbar>
       <entry :entry="entry">
-        <div v-show="entry.text" v-html="entry.text"/>
+        <div class="html-content" v-show="entry.text" v-html="entry.text"/>
       </entry>
     </div>
   </q-dialog>
@@ -44,3 +44,12 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.html-content img {
+  max-width: 100%;
+}
+.html-content a {
+  color: white;
+}
+</style>
