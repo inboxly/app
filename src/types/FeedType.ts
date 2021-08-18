@@ -1,7 +1,7 @@
 interface FeedType {
   id: number,
-  title: string,
-  custom_title: string,
+  name: string,
+  custom_name: string,
   image: string,
 }
 

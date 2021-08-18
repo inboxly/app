@@ -21,7 +21,7 @@ export default defineComponent({
   setup() {
     const focused = ref(false)
 
-    function search(query) {
+    function search(query: string) {
       console.log('Search: ' + query)
     }
 

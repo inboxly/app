@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <toolbar :title="category.title">
+    <toolbar :title="category.name">
       <template #left>
         <toolbar-progress :max="progressMax" :value="progressValue"/>
       </template>
@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import {useStore} from "vuex";
-import {computed, onBeforeMount, ref} from "vue";
+import {computed, ComputedRef, onBeforeMount, ref} from "vue";
 import {useRoute} from "vue-router";
 import {api} from "boot/axios";
 import CategoryType from "src/types/CategoryType";
@@ -37,8 +37,8 @@ export default {
     const progressMax = ref(0)
     const progressValue = computed(() => store.getters.getCategoryEntriesCount(+route.params.categoryId))
     const url = computed(() => `/api/categories/${route.params.categoryId}/entries?unreadOnly=1`)
-    const category = computed(() => {
-      return store.state.categories.find((category: CategoryType) => category.id === +route.params.categoryId) || {}
+    const category: ComputedRef<CategoryType> = computed(() => {
+      return store.state.categories.find((category: CategoryType) => category.id === +route.params.categoryId)
     })
 
     onBeforeMount(() => {

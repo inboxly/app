@@ -5,9 +5,9 @@
     </div>
 
     <q-card-section class="q-py-none">
-      <div class="entry-title q-my-xs">{{ entry.title }}</div>
+      <div class="entry-name q-my-xs">{{ entry.name }}</div>
       <div class="entry-subtitle q-my-sm text-grey row no-wrap">
-        <div class="ellipsis" v-text="feedTitle" :title="feedTitle"/>
+        <div class="ellipsis" v-text="feedName" :title="feedName"/>
         <div class="q-mx-xs col-auto">/</div>
         <div class="col-auto" :title="createdDate">{{ createdDuration }}</div>
       </div>
@@ -15,7 +15,7 @@
 
     <q-card-section class="entry-text q-pt-none text-grey">
       <slot>
-        <div v-show="entry.description" v-text="entry.description"/>
+        <div v-show="entry.summary" v-text="entry.summary"/>
       </slot>
     </q-card-section>
   </q-card>
@@ -35,10 +35,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const feedTitle = computed(() => {
-      const title = props.entry.feed.custom_title ?? props.entry.feed.title
+    const feedName = computed(() => {
+      const name = props.entry.feed.custom_name ?? props.entry.feed.name
       const author = (props.entry.author && props.entry.author.name) || ''
-      return title === author ? title : title + ' by ' + author
+      return name === author ? name : name + ' by ' + author
     })
 
     const createdDate = computed(() => {
@@ -50,13 +50,13 @@ export default defineComponent({
       return format(new Date(props.entry.created_at))
     })
 
-    return {feedTitle, createdDate, createdDuration}
+    return {feedName, createdDate, createdDuration}
   },
 })
 </script>
 
 <style>
-.entry-title {
+.entry-name {
   font-size: 1.1rem;
   line-height: 1.3;
 }

@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <toolbar :title="collection.title">
+    <toolbar :title="collection.name">
       <template #left>
         <toolbar-progress/>
       </template>
@@ -34,7 +34,7 @@ export default defineComponent({
     const store = useStore()
     const showEntryListMenu = ref(false)
     const url = computed(() => `/api/collections/${route.params.collectionId}/entries?unreadOnly=1`)
-    const collection = computed(() => {
+    const collection = computed<CollectionType>(() => {
       const foundCollection = store.state.collections.find(
         (collection: CollectionType) => collection.id === +route.params.collectionId
       )

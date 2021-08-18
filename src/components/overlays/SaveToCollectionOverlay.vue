@@ -37,7 +37,7 @@
               :name="savedToCollection(collection) ? 'star' : 'star_outline'"
             />
           </q-item-section>
-          <q-item-section>{{ collection.title }}</q-item-section>
+          <q-item-section>{{ collection.name }}</q-item-section>
           <q-item-section v-if="savedToCollection(collection)" side>
             <q-badge color="primary">&check; Saved</q-badge>
           </q-item-section>
@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import {useDialogPluginComponent} from "quasar";
-import {computed, defineComponent, PropType} from 'vue'
+import {computed, ComputedRef, defineComponent, PropType} from 'vue'
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
 import CollectionType from "src/types/CollectionType";
@@ -72,7 +72,7 @@ export default defineComponent({
     const store = useStore()
     const route = useRoute()
 
-    const collections = computed(() => store.state.collections);
+    const collections: ComputedRef<CollectionType[]> = computed(() => store.state.collections);
 
     function savedToCollection(collection: CollectionType) {
       return props.entry.collections.some(

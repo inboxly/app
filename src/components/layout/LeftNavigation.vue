@@ -85,10 +85,10 @@
 
         <q-tree
           class="q-px-md"
-          node-key="title"
+          node-key="name"
           icon="chevron_right"
           no-connectors
-          label-key="title"
+          label-key="name"
           children-key="feeds"
           :nodes="categories"
           v-ripple
@@ -108,7 +108,7 @@
               />
               <div
                 class="q-ml-md col ellipsis"
-                v-text="prop.node.title"
+                v-text="prop.node.name"
               />
               <div class="col-auto text-right" v-text="categoryOrFeedCount(prop.node)"/>
             </div>
@@ -132,7 +132,7 @@
             <q-icon class="text-grey" name="star_outline"/>
           </q-item-section>
 
-          <q-item-section>{{ collection.title }}</q-item-section>
+          <q-item-section>{{ collection.name }}</q-item-section>
         </q-item>
       </q-list>
     </div>
@@ -225,6 +225,7 @@ import { useStore } from 'vuex'
 import FeedType from "src/types/FeedType";
 import {useQuasar} from "quasar";
 import SettingsOverlay from "components/overlays/SettingsOverlay.vue";
+import CollectionType from "src/types/CollectionType";
 
 export default defineComponent({
   name: 'LeftNavigation',
@@ -235,7 +236,7 @@ export default defineComponent({
     const store = useStore()
 
     const link = ref('')
-    const collections = computed(() => store.state.collections)
+    const collections = computed<CollectionType[]>(() => store.state.collections)
 
     interface CategoryOrFeedType {
       id: number,

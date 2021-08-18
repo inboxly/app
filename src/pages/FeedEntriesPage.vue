@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <toolbar :title="feed.title">
+    <toolbar :title="feed.name">
       <template #left>
         <toolbar-progress :max="progressMax" :value="progressValue"/>
       </template>
@@ -24,6 +24,7 @@ import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay.vue'
 import Toolbar from 'components/layout/Toolbar.vue'
 import ToolbarButton from 'components/layout/ToolbarButton.vue'
 import ToolbarProgress from 'components/layout/ToolbarProgress.vue'
+import FeedType from "src/types/FeedType";
 
 export default defineComponent({
   name: 'FeedEntriesPage',
@@ -32,7 +33,7 @@ export default defineComponent({
     const route = useRoute()
     const store = useStore()
 
-    const feed = ref({})
+    const feed = ref<FeedType|{}>({})
     const showEntryListMenu = ref(false)
     const progressMax = ref(0)
     const progressValue = computed(() => store.getters.getFeedEntriesCount(+route.params.feedId))

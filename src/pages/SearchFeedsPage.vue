@@ -27,7 +27,7 @@ export default defineComponent({
   setup() {
     const focused = ref(false)
 
-    function explore(query) {
+    function explore(query: string) {
       console.log('Sent a query to explore: ' + query)
       api.post('/api/explore', {query}).then(response => console.log(response.data))
     }

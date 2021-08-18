@@ -4,10 +4,10 @@ import CollectionType from "src/types/CollectionType";
 
 interface EntryType {
   id: number,
-  title: string,
-  description: string,
-  text: string,
-  link: string,
+  name: string,
+  summary: string,
+  content: string,
+  url: string,
   image: string,
   is_read: boolean,
   is_saved: boolean,

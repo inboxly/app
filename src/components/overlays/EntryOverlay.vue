@@ -12,7 +12,7 @@
         </div>
       </q-toolbar>
       <entry :entry="entry">
-        <div class="html-content" v-show="entry.text" v-html="entry.text"/>
+        <div class="html-content" v-show="entry.content" v-html="entry.content"/>
       </entry>
     </div>
   </q-dialog>
