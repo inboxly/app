@@ -84,6 +84,16 @@ export function saveEntryToCollection (state, { collectionId, entryId }) {
   entry.collections.push(collection)
 }
 
+export function saveEntryToReadLater (state, { entryId }) {
+  const entry = state.entries.find(entry => entry.id === entryId)
+
+  if (!entry) {
+    return
+  }
+
+  entry.is_read_later = true
+}
+
 export function removeEntryFromCollection (state, { collectionId, entryId }) {
   const entry = state.entries.find(entry => entry.id === entryId)
 
@@ -94,4 +104,14 @@ export function removeEntryFromCollection (state, { collectionId, entryId }) {
   entry.collections = entry.collections.filter(
     entryCollection => entryCollection.id !== collectionId
   )
+}
+
+export function removeEntryFromReadLater (state, { entryId }) {
+  const entry = state.entries.find(entry => entry.id === entryId)
+
+  if (!entry) {
+    return
+  }
+
+  entry.is_read_later = false
 }

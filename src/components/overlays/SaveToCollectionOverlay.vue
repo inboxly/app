@@ -17,12 +17,18 @@
         <q-item
           clickable
           v-ripple
-          @click="saveToReadLater"
+          @click="toggleSavingToReadLater"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-grey" name="bookmark_border"/>
+            <q-icon
+              :class="entry.is_read_later ? 'text-primary' : 'text-grey'"
+              :name="entry.is_read_later ? 'bookmark' : 'bookmark_border'"
+            />
           </q-item-section>
           <q-item-section>Read later</q-item-section>
+          <q-item-section v-if="entry.is_read_later" side>
+            <q-badge color="primary">&check; Saved</q-badge>
+          </q-item-section>
         </q-item>
         <q-item
           clickable
@@ -73,6 +79,7 @@ export default defineComponent({
     const route = useRoute()
 
     const collections: ComputedRef<CollectionType[]> = computed(() => store.state.collections);
+    const readLaterCollectionId = store.state.profile.read_later_collection_id
 
     function savedToCollection(collection: CollectionType) {
       return props.entry.collections.some(
@@ -80,8 +87,22 @@ export default defineComponent({
       )
     }
 
-    function saveToReadLater() {
-      console.log(`Save entry #${props.entry.id} to read later`)
+    function toggleSavingToReadLater() {
+      const payload = {entryId: props.entry.id}
+      const isReadLaterRoute = route.name === 'read-later-entries'
+
+      if (props.entry.is_read_later) {
+        // todo: Bug! Removing from "read later" not synced with UI when is current route
+        store.dispatch('removeEntryFromReadLater', payload)
+        if (isReadLaterRoute) {
+          store.commit('removeEntries', [props.entry])
+        }
+      } else {
+        store.dispatch('saveEntryToReadLater', payload)
+        if (isReadLaterRoute) {
+          store.commit('unshiftEntries', [props.entry])
+        }
+      }
     }
 
     function toggleSavingToCollection(collection: CollectionType) {
@@ -90,7 +111,7 @@ export default defineComponent({
         && +route.params.collectionId === collection.id
 
       if (savedToCollection(collection)) {
-        // todo: Bug! Removing from collection not synced with UI
+        // todo: Bug! Removing from collection not synced with UI when is current route
         store.dispatch('removeEntryFromCollection', payload)
         if (isSelectedCollection) {
           store.commit('removeEntries', [props.entry])
@@ -103,7 +124,10 @@ export default defineComponent({
       }
     }
 
-    return {dialogRef, onDialogHide, collections, savedToCollection, saveToReadLater, toggleSavingToCollection}
+    return {
+      dialogRef, onDialogHide, collections, readLaterCollectionId,
+      savedToCollection, entry: props.entry, toggleSavingToReadLater, toggleSavingToCollection
+    }
   },
 })
 </script>

@@ -91,10 +91,28 @@ export function saveEntryToCollection (context, { collectionId, entryId }) {
   })
 }
 
+export function saveEntryToReadLater (context, { entryId }) {
+  const readLaterCollectionId = context.state.profile.read_later_collection_id
+  return api.post(`/api/collections/${readLaterCollectionId}/entries`, { ids: [entryId] }).then(() => {
+    context.commit('saveEntryToReadLater', { entryId })
+  }).catch(() => {
+    console.log('Fail on save entries to read later.', readLaterCollectionId, entryId)
+  })
+}
+
 export function removeEntryFromCollection (context, { collectionId, entryId }) {
   return api.delete(`/api/collections/${collectionId}/entries`, {data: { ids: [entryId] }}).then(() => {
     context.commit('removeEntryFromCollection', { collectionId, entryId })
   }).catch(() => {
     console.log('Fail on remove entries from collection.', collectionId, entryId)
+  })
+}
+
+export function removeEntryFromReadLater (context, { entryId }) {
+  const readLaterCollectionId = context.state.profile.read_later_collection_id
+  return api.delete(`/api/collections/${readLaterCollectionId}/entries`, {data: { ids: [entryId] }}).then(() => {
+    context.commit('removeEntryFromReadLater', { entryId })
+  }).catch(() => {
+    console.log('Fail on remove entries from read later.', entryId)
   })
 }
