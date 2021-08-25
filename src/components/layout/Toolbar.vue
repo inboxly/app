@@ -1,12 +1,12 @@
 <template>
   <q-slide-transition>
-    <q-header reveal class="bg-black text-white">
+    <q-header reveal class="bg-black text-white non-selectable">
       <q-toolbar class="row">
         <div class="col text-left q-gutter-x-xs">
           <slot name="left"/>
         </div>
 
-        <q-toolbar-title class="text-center text-subtitle1 col-shrink">
+        <q-toolbar-title class="text-center text-subtitle1 text-bold col-shrink">
           {{ title }}
         </q-toolbar-title>
 

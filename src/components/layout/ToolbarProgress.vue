@@ -6,8 +6,10 @@
     :max="max"
     :value="value"
     size="1.6rem"
-    color="white"
-    track-color="grey-7"
+    font-size=".5rem"
+    thickness=".1"
+    color="grey-9"
+    track-color="white"
   />
 </template>
 
