@@ -92,10 +92,10 @@ export default defineComponent({
       const isReadLaterRoute = route.name === 'read-later-entries'
 
       if (props.entry.is_read_later) {
-        // todo: Bug! Removing from "read later" not synced with UI when is current route
         store.dispatch('removeEntryFromReadLater', payload)
         if (isReadLaterRoute) {
           store.commit('removeEntries', [props.entry])
+          onDialogHide()
         }
       } else {
         store.dispatch('saveEntryToReadLater', payload)
@@ -111,10 +111,10 @@ export default defineComponent({
         && +route.params.collectionId === collection.id
 
       if (savedToCollection(collection)) {
-        // todo: Bug! Removing from collection not synced with UI when is current route
         store.dispatch('removeEntryFromCollection', payload)
         if (isSelectedCollection) {
           store.commit('removeEntries', [props.entry])
+          onDialogHide()
         }
       } else {
         store.dispatch('saveEntryToCollection', payload)
