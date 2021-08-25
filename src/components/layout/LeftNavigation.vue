@@ -23,9 +23,9 @@
         <q-item
           clickable
           v-ripple
-          :active="link === 'read_later'"
-          @click="link = 'read_later'"
-          :to="{name: 'saved-entries'}"
+          :active="link === 'later'"
+          @click="link = 'later'"
+          :to="{name: 'read-later-entries'}"
           active-class="my-menu-link"
         >
           <q-item-section avatar style="min-width: auto">

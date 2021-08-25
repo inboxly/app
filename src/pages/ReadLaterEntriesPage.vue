@@ -9,7 +9,7 @@
         <toolbar-button icon="more_horiz" @click="moreMenu = true"/>
       </template>
     </toolbar>
-    <entry-list url="/api/saved/entries"/>
+    <entry-list :url="url"/>
   </q-page>
 </template>
 
@@ -21,18 +21,22 @@ import EntryListMenuOverlay from 'components/overlays/EntryListMenuOverlay.vue'
 import Toolbar from 'components/layout/Toolbar.vue'
 import ToolbarButton from 'components/layout/ToolbarButton.vue'
 import ToolbarProgress from 'components/layout/ToolbarProgress.vue'
+import {useStore} from "vuex";
 
 export default defineComponent({
-  name: 'SavedEntriesPage',
+  name: 'ReadLaterEntriesPage',
   components: { EntryList, EntryListMenuOverlay, Toolbar, ToolbarButton, ToolbarProgress },
   setup () {
+    const store = useStore()
     const showEntryListMenu = ref(false)
+    const readLaterCollectionId = store.state.profile.read_later_collection_id
+    const url = ref(`/api/collections/${readLaterCollectionId}/entries`)
 
     function markAllAsRead() {
-      api.post('/api/read/saved')
+      api.post(`/api/read/collections/${readLaterCollectionId}`)
     }
 
-    return {showEntryListMenu, markAllAsRead}
+    return {showEntryListMenu, url, markAllAsRead}
   },
 })
 </script>

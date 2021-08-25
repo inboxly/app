@@ -3,7 +3,7 @@ import FeedType from "src/types/FeedType";
 interface CategoryType {
   id: number,
   name: string,
-  is_default: boolean,
+  is_customizable: boolean,
   feeds: FeedType[],
 }
 

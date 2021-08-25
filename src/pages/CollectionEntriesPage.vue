@@ -33,7 +33,7 @@ export default defineComponent({
     const route = useRoute()
     const store = useStore()
     const showEntryListMenu = ref(false)
-    const url = computed(() => `/api/collections/${route.params.collectionId}/entries?unreadOnly=1`)
+    const url = computed(() => `/api/collections/${route.params.collectionId}/entries?state=unread`)
     const collection = computed<CollectionType>(() => {
       const foundCollection = store.state.collections.find(
         (collection: CollectionType) => collection.id === +route.params.collectionId

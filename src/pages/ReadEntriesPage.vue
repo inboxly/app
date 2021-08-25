@@ -8,7 +8,7 @@
         <toolbar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
     </toolbar>
-    <entry-list no-mark-read url="/api/entries?readOnly=1"/>
+    <entry-list no-mark-read url="/api/entries?state=read"/>
     <entry-list-menu-overlay v-model="showEntryListMenu"/>
   </q-page>
 </template>

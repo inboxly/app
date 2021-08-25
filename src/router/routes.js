@@ -30,9 +30,9 @@ const routes = [
         component: () => import('pages/ReadEntriesPage.vue'),
       },
       {
-        path: 'saved',
-        name: 'saved-entries',
-        component: () => import('pages/SavedEntriesPage.vue'),
+        path: 'later',
+        name: 'read-later-entries',
+        component: () => import('pages/ReadLaterEntriesPage'),
       },
       {
         path: 'search/entries',

@@ -36,7 +36,7 @@ export default defineComponent({
   },
   setup(props) {
     const feedName = computed(() => {
-      const name = props.entry.feed.custom_name ?? props.entry.feed.name
+      const name = props.entry.feed.name
       const author = (props.entry.author && props.entry.author.name) || ''
       return name === author ? name : name + ' by ' + author
     })

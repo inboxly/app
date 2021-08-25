@@ -36,7 +36,7 @@ export default {
     const showEntryListMenu = ref(false)
     const progressMax = ref(0)
     const progressValue = computed(() => store.getters.getCategoryEntriesCount(+route.params.categoryId))
-    const url = computed(() => `/api/categories/${route.params.categoryId}/entries?unreadOnly=1`)
+    const url = computed(() => `/api/categories/${route.params.categoryId}/entries?state=unread`)
     const category: ComputedRef<CategoryType> = computed(() => {
       return store.state.categories.find((category: CategoryType) => category.id === +route.params.categoryId)
     })

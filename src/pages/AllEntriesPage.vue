@@ -9,7 +9,7 @@
         <toolbar-button icon="more_horiz" @click="showEntryListMenu = true"/>
       </template>
     </toolbar>
-    <entry-list url="/api/entries?unreadOnly=1" @refresh="progressMax = progressValue"/>
+    <entry-list url="/api/entries?state=unread" @refresh="progressMax = progressValue"/>
     <entry-list-menu-overlay v-model="showEntryListMenu"/>
   </q-page>
 </template>

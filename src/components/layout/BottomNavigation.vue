@@ -6,7 +6,7 @@
       @click="toggleLeftDrawer"
       :class="{ 'text-primary': ![
             'all-entries',
-            'saved-entries',
+            'read-later-entries',
             'search-entries',
             'search-feeds'
           ].includes(route.name) }"
@@ -14,8 +14,8 @@
     <q-btn
       size="1rem"
       icon="bookmark_border"
-      :to="{name: 'saved-entries'}"
-      :class="{'text-primary': route.name === 'saved-entries'}"
+      :to="{name: 'read-later-entries'}"
+      :class="{'text-primary': route.name === 'read-later-entries'}"
     />
     <q-btn
       size="1rem"

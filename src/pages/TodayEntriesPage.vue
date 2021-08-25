@@ -32,7 +32,7 @@ export default defineComponent({
     const showEntryListMenu = ref(false)
 
     function markAllAsRead() {
-      api.post(`/api/read/all?todayOnly=1`).then(() => {
+      api.post(`/api/read/all?todayOnly=1&state=unread`).then(() => {
         router.push({name: 'all-entries'})
       })
     }

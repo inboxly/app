@@ -37,7 +37,7 @@ export default defineComponent({
     const showEntryListMenu = ref(false)
     const progressMax = ref(0)
     const progressValue = computed(() => store.getters.getFeedEntriesCount(+route.params.feedId))
-    const url = computed(() => `/api/feeds/${route.params.feedId}/entries?unreadOnly=1`)
+    const url = computed(() => `/api/feeds/${route.params.feedId}/entries?state=unread`)
 
     onBeforeMount(() => {
       api.get(`/api/feeds/${route.params.feedId}`).then(
