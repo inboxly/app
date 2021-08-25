@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-right q-my-md q-mx-sm text-bold">
+    <div class="text-right q-my-md q-mx-sm text-bold non-selectable">
       <q-btn flat>Edit</q-btn>
     </div>
     <div>
@@ -8,13 +8,11 @@
         <q-item
           clickable
           v-ripple
-          :active="true"
-          @click="link = 'today'"
-          active-class="my-menu-link"
           :to="{name: 'today-entries'}"
+          active-class="active-item"
         >
           <q-item-section avatar style="min-width: auto">
-            <q-icon class="text-primary" name="rss_feed"/>
+            <q-icon class="text-grey" name="rss_feed"/>
           </q-item-section>
 
           <q-item-section>Today</q-item-section>
@@ -23,10 +21,8 @@
         <q-item
           clickable
           v-ripple
-          :active="link === 'later'"
-          @click="link = 'later'"
           :to="{name: 'read-later-entries'}"
-          active-class="my-menu-link"
+          active-class="active-item"
         >
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-grey" name="bookmark_border"/>
@@ -38,9 +34,7 @@
         <q-item
           clickable
           v-ripple
-          :active="link === 'upgrade'"
-          @click="link = 'upgrade'"
-          active-class="my-menu-link"
+          active-class="active-item"
         >
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-grey" name="workspace_premium"/>
@@ -57,9 +51,8 @@
         <q-item
           clickable
           v-ripple
-          :active="link === 'all'"
-          @click="link = 'all'"
-          active-class="my-menu-link"
+          exact
+          active-class="active-item"
           :to="{name: 'all-entries'}"
         >
           <q-item-section avatar style="min-width: auto">
@@ -74,7 +67,7 @@
         <!--          v-ripple-->
         <!--          :active="link === 'favorite'"-->
         <!--          @click="link = 'favorite'"-->
-        <!--          active-class="my-menu-link"-->
+        <!--          active-class="active-item"-->
         <!--        >-->
         <!--          <q-item-section avatar style="min-width: auto">-->
         <!--            <q-icon class="text-grey" name="folder_special"/>-->
@@ -92,7 +85,6 @@
           children-key="feeds"
           :nodes="categories"
           v-ripple
-          active-class="my-menu-link"
         >
           <template v-slot:default-header="prop">
             <div
@@ -118,15 +110,13 @@
     </div>
 
     <div>
-      <q-list padding class="text-primary">
+      <q-list padding>
         <q-item-label class="q-py-none" header>Collections</q-item-label>
         <q-item v-for="collection in collections" :key="collection.id"
                 clickable
                 v-ripple
-                :active="link === 'some_collection'"
-                @click="link = 'some_collection'"
-                active-class="my-menu-link"
                 :to="{name: 'collection-entries', params: {collectionId: collection.id}}"
+                active-class="active-item"
         >
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-grey" name="star_outline"/>
@@ -146,10 +136,8 @@
         <q-item
           clickable
           v-ripple
-          :active="link === 'recently_read'"
-          @click="link = 'recently_read'"
-          active-class="my-menu-link"
           :to="{name: 'read-entries'}"
+          active-class="active-item"
         >
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-grey" name="schedule"/>
@@ -161,9 +149,7 @@
         <q-item
           clickable
           v-ripple
-          :active="link === 'choose_theme'"
-          @click="link = 'choose_theme'"
-          active-class="my-menu-link"
+          active-class="active-item"
         >
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-grey" name="nights_stay"/>
@@ -175,9 +161,7 @@
         <q-item
           clickable
           v-ripple
-          :active="link === 'new_features'"
-          @click="link = 'new_features'"
-          active-class="my-menu-link"
+          active-class="active-item"
         >
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-grey" name="card_giftcard"/>
@@ -189,9 +173,8 @@
         <q-item
           clickable
           v-ripple
-          :active="link === 'settings'"
           @click="openSettings"
-          active-class="my-menu-link"
+          active-class="active-item"
         >
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-grey" name="settings"/>
@@ -203,9 +186,7 @@
         <q-item
           clickable
           v-ripple
-          :active="link === 'logout'"
-          @click="link = 'logout'"
-          active-class="my-menu-link"
+          active-class="active-item"
         >
           <q-item-section avatar style="min-width: auto">
             <q-icon class="text-grey" name="power_settings_new"/>
@@ -271,3 +252,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="scss">
+.active-item .q-icon {
+  color: $primary !important;
+}
+</style>
