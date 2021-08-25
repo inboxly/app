@@ -66,7 +66,7 @@ export default defineComponent({
       }
       const isAboveViewport = intersection.boundingClientRect.bottom < 0;
       if (isAboveViewport) {
-        const entryId = parseInt(intersection.target.dataset.id)
+        const entryId = intersection.target.dataset.id
         store.dispatch('markEntryAsRead', entryId)
         return false
       }
