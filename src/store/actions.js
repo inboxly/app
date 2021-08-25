@@ -9,6 +9,12 @@ function hotfixNextUrl (nextUrl) {
     : nextUrl
 }
 
+export function fetchProfile (context) {
+  return api.get('api/profile').then(response => {
+    context.commit('setProfile', response.data.data)
+  })
+}
+
 export function fetchFeedsCounts (context) {
   return api.get('api/feeds/counts').then(response => {
     context.commit('setFeedsCounts', response.data.data)

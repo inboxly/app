@@ -1,3 +1,7 @@
+export function setProfile (state, profile) {
+  state.profile = profile
+}
+
 export function setFeedsCounts (state, feedsCounts) {
   state.feedsCounts = feedsCounts
 }
