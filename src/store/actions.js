@@ -2,8 +2,7 @@ import { api } from 'boot/axios'
 
 let markAsReadTimeout = null
 
-// todo: The server must return a relative url (without protocol, host, port)
-function hotfixNextUrl (nextUrl) {
+function relativeUrl (nextUrl) {
   return (nextUrl && nextUrl.startsWith('http'))
     ? nextUrl.slice(nextUrl.indexOf('/api'))
     : nextUrl
@@ -37,7 +36,7 @@ export function fetchEntries (context, url) {
   return api.get(url).then(response => {
     const { data, links } = response.data
     context.commit('setEntries', data)
-    return hotfixNextUrl(links.next)
+    return relativeUrl(links.next)
   })
 }
 
@@ -45,7 +44,7 @@ export function fetchMoreEntries (context, url) {
   return api.get(url).then(response => {
     const { data, links } = response.data
     context.commit('addEntries', data)
-    return hotfixNextUrl(links.next)
+    return relativeUrl(links.next)
   })
 }
 
