@@ -53,8 +53,7 @@ export function sendMarkEntriesAsRead (context) {
   return api.post('/api/read/entries', { ids }).then(() => {
     context.commit('removeFromEntriesToMarkRead', ids)
   }).catch(() => {
-    console.log('Fail on send mark entries as read.', ids)
-    // todo: revert entries marks end feeds counts
+    ids.forEach(id => context.commit('markEntryAsUnread', id))
   })
 }
 
