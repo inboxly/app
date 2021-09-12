@@ -23,6 +23,7 @@ import {defineComponent, PropType} from "vue";
 import {useDialogPluginComponent} from "quasar";
 import Entry from 'components/common/Entry.vue'
 import EntryType from "src/types/EntryType";
+import {useStore} from "vuex";
 
 export default defineComponent({
   name: 'EntryOverlay',
@@ -38,7 +39,10 @@ export default defineComponent({
     },
   },
   emits: [...useDialogPluginComponent.emits],
-  setup() {
+  setup(props) {
+    const store = useStore()
+    store.dispatch('markEntryAsRead', props.entry.id)
+
     const {dialogRef, onDialogHide} = useDialogPluginComponent();
     return {dialogRef, onDialogHide}
   },
