@@ -35,7 +35,7 @@ export function addEntries (state, entries) {
 export function markEntryAsRead (state, entryId) {
   const entry = state.entries.find(entry => entry.id === entryId)
 
-  if (!entry) {
+  if (!entry || entry.is_read) {
     return
   }
 

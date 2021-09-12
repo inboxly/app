@@ -76,8 +76,7 @@ export function markEntryAsUnread (context, entryId) {
 
   return api.delete('/api/read/entries', { data: { ids: [entryId] } }).
     catch(() => {
-      console.log('Fail on send mark entry as unread.', entryId)
-      // todo revert entry mark and feeds counts
+      context.commit('markEntryAsRead', entryId)
     })
 }
 
