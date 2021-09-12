@@ -51,12 +51,10 @@ export default defineComponent({
     const quasar = useQuasar()
 
     function markAsRead() {
-      console.log('mark read')
       store.dispatch('markEntryAsRead', props.entry.id)
     }
 
     function markAsUnread() {
-      console.log('mark unread')
       store.dispatch('markEntryAsUnread', props.entry.id)
     }
 
